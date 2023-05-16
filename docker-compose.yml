@@ -1,21 +1,59 @@
-version: '3'
+version: '3.3'
 
 services:
-###> doctrine/doctrine-bundle ###
-  database:
-    image: postgres:${POSTGRES_VERSION:-15}-alpine
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
+  nginx:
+    container_name: diplom_nginx
+    build:
+      context: docker/nginx
     volumes:
-      - database_data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+      - .:/diplom
+    restart: always
+    depends_on:
+      - php-fpm
+    ports:
+      - "88:88"
+    networks:
+      - diplom
 
-volumes:
-###> doctrine/doctrine-bundle ###
-  database_data:
-###< doctrine/doctrine-bundle ###
+  php-fpm:
+    container_name: diplom_php_fpm
+    build:
+      context: docker/php-fpm
+    volumes:
+      - .:/diplom
+    depends_on:
+      - mysql
+    networks:
+      - diplom
+
+  php-cli:
+    container_name: diplom_php_cli
+    build:
+      context: docker/php-cli
+    volumes:
+      - .:/diplom
+    depends_on:
+      - mysql
+    networks:
+      - diplom
+
+  mysql:
+    container_name: diplom_mysql
+    image: library/mysql:8.0
+    volumes:
+      - ./docker/mysql:/var/lib/mysql
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - "MYSQL_USER=${MYSQL_USER}"
+      - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
+      - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
+      - "MYSQL_DATABASE=${MYSQL_DATABASE}"
+    ports:
+      - "3306:3306"
+    networks:
+      - diplom
+
+networks:
+  diplom:
