@@ -8,8 +8,9 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     libzip-dev \
     libonig-dev \
-    libxml2-dev
+    libxml2-dev \
+    && docker-php-ext-install pdo_mysql zip mbstring exif pcntl bcmath opcache
 
-RUN docker-php-ext-install pdo pdo_pgsql zip mbstring exif pcntl bcmath opcache
+RUN apt-get install -y libicu-dev && docker-php-ext-install intl
 
 WORKDIR /diplom

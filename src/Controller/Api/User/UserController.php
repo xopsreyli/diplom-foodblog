@@ -1,0 +1,97 @@
+<?php
+
+namespace App\Controller\Api\User;
+
+use App\DTO\Api\User\UserLoginDTO;
+use App\DTO\Api\User\UserRegistrationDTO;
+use App\Service\User\UserService;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
+use JMS\Serializer\SerializerBuilder;
+use JMS\Serializer\SerializerInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Security;
+use OpenApi\Attributes as OA;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use FOS\RestBundle\Controller\Annotations as Rest;
+
+#[
+    Rest\Route('/api/user'),
+    OA\Tag('User'),
+]
+class UserController extends AbstractFOSRestController
+{
+    private SerializerInterface $serializer;
+
+    public function __construct(
+        private UserService $service
+    )
+    {
+        $this->serializer = SerializerBuilder::create()->build();
+    }
+
+    /**
+     * User registration
+    */
+    #[
+        Rest\Post('/registration'),
+        OA\RequestBody(
+            description: 'UserRegistrationDTO(email, nickname, password)',
+            required: true,
+            content: new OA\JsonContent(
+                ref: new Model(type: UserRegistrationDTO::class)
+            ),
+        ),
+        OA\Response(
+            response: Response::HTTP_OK,
+            description: 'Registration completed successfully!',
+        ),
+    ]
+    public function registration(Request $request): JsonResponse
+    {
+        $userRegistrationDTO = $this->serializer->deserialize($request->getContent(), UserRegistrationDTO::class, 'json');
+
+        $this->service->registration($userRegistrationDTO);
+
+        return new JsonResponse();
+    }
+
+    /**
+     * Log in
+    */
+    #[
+        Rest\Post('/login'),
+        OA\RequestBody(
+            description: 'UserLoginDTO(email, password)',
+            required: true,
+            content: new OA\JsonContent(
+                ref: new Model(type: UserLoginDTO::class)
+            ),
+        ),
+        OA\Response(
+            response: Response::HTTP_OK,
+            description: 'User loged in successfully!',
+        )
+    ]
+    public function login(): JsonResponse
+    {
+        return new JsonResponse();
+    }
+
+    /**
+     * Log out
+    */
+    #[
+        Rest\Get('/logout'),
+        OA\Response(
+            response: Response::HTTP_OK,
+            description: 'User loged out successfully!',
+        )
+    ]
+    public function logout(): JsonResponse
+    {
+        return new JsonResponse();
+    }
+}
