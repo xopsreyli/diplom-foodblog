@@ -26,6 +26,4 @@ RUN npm install -g npm@latest
 
 CMD ["npm", "run", "watch"]
 
-CMD ["tail", "-f", "/dev/null"]
-
 WORKDIR /diplom
