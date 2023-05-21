@@ -31,7 +31,7 @@ function LoginPage() {
                 <input type="submit" value='Войти'/>
             </form>
         </>
-    );
+    )
 }
 
 export default LoginPage

@@ -40,7 +40,7 @@ function RegistrationPage() {
                 <input type='submit' value='Зарегестрироваться'/>
             </form>
         </>
-    );
+    )
 }
 
 export default RegistrationPage

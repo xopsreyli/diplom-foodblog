@@ -2,7 +2,10 @@
 
 namespace App\Entity\User;
 
+use App\Entity\Article\Article;
 use App\Repository\User\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\Types\String_;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -21,20 +24,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     ]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'email', length: 180, unique: true, nullable: false)]
+    #[ORM\Column(name: 'email', type: Types::STRING,  length: 180, unique: true, nullable: false)]
     private string $email;
 
-    #[ORM\Column(name: 'nickname', length: 30, unique: true, nullable: false)]
+    #[ORM\Column(name: 'nickname', type: Types::STRING, length: 30, unique: true, nullable: false)]
     private string $nickname;
 
-    #[ORM\Column]
+    #[ORM\Column(name: 'roles', type: Types::JSON, nullable: false)]
     private array $roles = [];
 
-    /**
-     * @var string The hashed password
-     */
-    #[ORM\Column(name: 'password', nullable: false)]
+    #[ORM\Column(name: 'password', type: Types::STRING, nullable: false)]
     private string $password;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Article::class)]
+    private ?Collection $articles = null;
 
     public function getId(): ?int
     {
@@ -46,11 +49,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(string $email): void
     {
         $this->email = $email;
-
-        return $this;
     }
 
     public function getNickname(): string
@@ -58,11 +59,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->nickname;
     }
 
-    public function setNickname(string $nickname): self
+    public function setNickname(string $nickname): void
     {
         $this->nickname = $nickname;
-
-        return $this;
     }
 
     /**
@@ -87,11 +86,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): self
+    public function setRoles(array $roles): void
     {
         $this->roles = $roles;
-
-        return $this;
     }
 
     /**
@@ -102,11 +99,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->password;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword(string $password): void
     {
         $this->password = $password;
-
-        return $this;
     }
 
     /**
