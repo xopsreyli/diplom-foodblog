@@ -6,11 +6,13 @@ use App\DTO\Api\Article\ArticleCreationDTO;
 use App\Entity\Article\Article;
 use App\Entity\User\User;
 use App\Manager\Article\ArticleManager;
+use App\Manager\Category\CategoryManager;
 
 class ArticleService
 {
     public function __construct(
-        private ArticleManager $manager
+        private ArticleManager $manager,
+        private CategoryManager $categoryManager
     )
     {
     }
@@ -22,6 +24,8 @@ class ArticleService
         $article->setTitle($articleCreationDTO->title);
         $article->setContent($articleCreationDTO->content);
         $article->setCreatedAt(new \DateTime('now'));
+        $category = $this->categoryManager->getCategoryById($articleCreationDTO->categoryId);
+        $article->setCategory($category);
 
         $this->manager->create($article);
 

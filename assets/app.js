@@ -10,10 +10,10 @@ import {
     Routes,
     Route
 } from "react-router-dom";
-import HomePage from "./components/HomePage";
-import RegistrationPage from "./components/RegistrationPage";
-import LoginPage from "./components/LoginPage";
-import ArticleCreationPage from "./components/ArticleCreationPage";
+import HomePage from "./pages/HomePage";
+import RegistrationPage from "./pages/RegistrationPage";
+import LoginPage from "./pages/LoginPage";
+import ArticleCreationPage from "./pages/ArticleCreationPage";
 
 const root = createRoot(document.getElementById("root"));
 

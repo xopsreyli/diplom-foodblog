@@ -35,7 +35,7 @@ class ArticleController extends AbstractFOSRestController
     #[
         Rest\Post('/create'),
         OA\RequestBody(
-            description: 'ArticleCreationDTO(title, content)',
+            description: 'ArticleCreationDTO(title, content, category_id)',
             required: true,
             content: new OA\JsonContent(
                 ref: new Model(type: ArticleCreationDTO::class)

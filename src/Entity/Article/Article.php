@@ -2,6 +2,7 @@
 
 namespace App\Entity\Article;
 
+use App\Entity\Category\Category;
 use App\Entity\User\User;
 use App\Repository\Article\ArticleRepository;
 use Doctrine\DBAL\Types\Types;
@@ -13,9 +14,11 @@ use Doctrine\ORM\Mapping as ORM;
 ]
 class Article
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[
+        ORM\Id,
+        ORM\GeneratedValue,
+        ORM\Column
+    ]
     private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'articles')]
@@ -30,8 +33,8 @@ class Article
     #[ORM\Column(name: 'created_at', type: Types::DATETIME_MUTABLE, nullable: false)]
     private \DateTime $createdAt;
 
-    //TODO: добавать класс категорий
-//    private string $category;
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'articles')]
+    private Category $category;
 
     public function getId(): ?int
     {
@@ -100,5 +103,21 @@ class Article
     public function setCreatedAt(\DateTime $createdAt): void
     {
         $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCategory(): Category
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setCategory(Category $category): void
+    {
+        $this->category = $category;
     }
 }
