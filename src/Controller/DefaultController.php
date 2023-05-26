@@ -2,12 +2,21 @@
 
 namespace App\Controller;
 
+use App\Service\Minio\MinioService;
+use Aws\S3\S3Client;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\DependencyInjection\Compiler\RegisterTokenUsageTrackingPass;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
+    public function __construct(
+        private MinioService $minioService
+    )
+    {
+    }
+
     #[Route('/{reactRouting}', defaults: ['reactRouting' => null])]
     public function reactRouting(): Response
     {

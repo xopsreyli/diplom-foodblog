@@ -35,7 +35,7 @@ class ArticleController extends AbstractFOSRestController
     #[
         Rest\Post('/create'),
         OA\RequestBody(
-            description: 'ArticleCreationDTO(title, content, category_id)',
+            description: 'ArticleCreationDTO(image, title, content, category_id)',
             required: true,
             content: new OA\JsonContent(
                 ref: new Model(type: ArticleCreationDTO::class)
@@ -48,7 +48,8 @@ class ArticleController extends AbstractFOSRestController
     ]
     public function createArticle(Request $request): JsonResponse
     {
-        $articleCreationDTO = $this->serializer->deserialize($request->getContent(), ArticleCreationDTO::class, 'json');
+        $articleCreationDTO = $this->serializer->deserialize($request->request->get('jsonData'), ArticleCreationDTO::class, 'json');
+        $articleCreationDTO->image = $request->files->get('avatar');
 
         $this->service->createArticle($articleCreationDTO, $this->getUser());
 

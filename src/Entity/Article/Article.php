@@ -36,6 +36,9 @@ class Article
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'articles')]
     private Category $category;
 
+    #[ORM\Column(name: 'image_key', type: Types::STRING, nullable: false)]
+    private string $imageKey;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -119,5 +122,21 @@ class Article
     public function setCategory(Category $category): void
     {
         $this->category = $category;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageKey(): string
+    {
+        return $this->imageKey;
+    }
+
+    /**
+     * @param string $content
+     */
+    public function setImageKey(string $imageKey): void
+    {
+        $this->imageKey = $imageKey;
     }
 }

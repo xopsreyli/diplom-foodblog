@@ -3,16 +3,21 @@
 namespace App\Service\Article;
 
 use App\DTO\Api\Article\ArticleCreationDTO;
+use App\DTO\Minio\ImageDTO;
+use App\DTOBuilder\Minio\ImageDTOBuilder;
 use App\Entity\Article\Article;
 use App\Entity\User\User;
+use App\Enum\Minio\ImageBucketsEnum;
 use App\Manager\Article\ArticleManager;
 use App\Manager\Category\CategoryManager;
+use App\Service\Minio\MinioService;
 
 class ArticleService
 {
     public function __construct(
         private ArticleManager $manager,
-        private CategoryManager $categoryManager
+        private CategoryManager $categoryManager,
+        private MinioService $minioService
     )
     {
     }
@@ -26,6 +31,11 @@ class ArticleService
         $article->setCreatedAt(new \DateTime('now'));
         $category = $this->categoryManager->getCategoryById($articleCreationDTO->categoryId);
         $article->setCategory($category);
+
+        $imageDTO = ImageDTOBuilder::build($articleCreationDTO->image, ImageBucketsEnum::ARTICLE_BUCKET);
+        $article->setImageKey($imageDTO->key);
+
+        $this->minioService->uploadFile($imageDTO);
 
         $this->manager->create($article);
 
