@@ -38,7 +38,6 @@ class CategoryController extends AbstractFOSRestController
     ]
     public function getAllCategories(): JsonResponse
     {
-        //TODO: Возвращать не сущности напрямую, а придумать какой-то ResponseDTO
         return new JsonResponse($this->serializer->serialize($this->service->getAllCategories(), 'json'), json: true);
     }
 }

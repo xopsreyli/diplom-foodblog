@@ -3,7 +3,9 @@
 namespace App\Controller\Api\User;
 
 use App\DTO\Api\User\UserLoginDTO;
+use App\DTO\Api\User\UserProfileResponseDTO;
 use App\DTO\Api\User\UserRegistrationDTO;
+use App\Entity\User\User;
 use App\Service\User\UserService;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use JMS\Serializer\SerializerBuilder;
@@ -91,5 +93,32 @@ class UserController extends AbstractFOSRestController
     public function logout(): JsonResponse
     {
         return new JsonResponse();
+    }
+
+    #[
+        Rest\Get('/profile'),
+        OA\Parameter(
+            name: 'id',
+            in: 'query',
+            description: "User's id",
+            schema: new OA\Schema(type: 'integer'),
+        ),
+        OA\Response(
+            response: Response::HTTP_OK,
+            description: 'Returns user profile data(id, nickname, articles)',
+            content: new OA\JsonContent(
+                ref: new Model(
+                    type: UserProfileResponseDTO::class
+                )
+            ),
+        ),
+    ]
+    public function profile(Request $request): JsonResponse
+    {
+        $id = $request->query->get('id');
+
+        $response = $this->service->profile($id);
+
+        return new JsonResponse($this->serializer->serialize($response, 'json'), json: true);
     }
 }

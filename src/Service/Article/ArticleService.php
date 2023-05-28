@@ -3,7 +3,11 @@
 namespace App\Service\Article;
 
 use App\DTO\Api\Article\ArticleCreationDTO;
+use App\DTO\Api\Article\ArticleResponseDTO;
+use App\DTO\Api\Category\CategoryDTO;
+use App\DTO\Api\User\UserDTO;
 use App\DTO\Minio\ImageDTO;
+use App\DTOBuilder\Api\Article\ArticleResponseDTOBuilder;
 use App\DTOBuilder\Minio\ImageDTOBuilder;
 use App\Entity\Article\Article;
 use App\Entity\User\User;
@@ -40,5 +44,14 @@ class ArticleService
         $this->manager->create($article);
 
         return $article;
+    }
+
+    public function getArticle(int $id): ArticleResponseDTO
+    {
+        $article = $this->manager->getById($id);
+
+        $articleResponseDTO = ArticleResponseDTOBuilder::build($article);
+
+        return $articleResponseDTO;
     }
 }

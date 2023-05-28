@@ -14,6 +14,9 @@ import HomePage from "./pages/HomePage";
 import RegistrationPage from "./pages/RegistrationPage";
 import LoginPage from "./pages/LoginPage";
 import ArticleCreationPage from "./pages/ArticleCreationPage";
+import ProfilePage from "./pages/ProfilePage";
+import ArticlePage from "./pages/ArticlePage";
+
 
 const root = createRoot(document.getElementById("root"));
 
@@ -24,6 +27,8 @@ root.render(
             <Route path="/registration" element={<RegistrationPage />}></Route>
             <Route path="/login" element={<LoginPage />}></Route>
             <Route path="/article/create" element={<ArticleCreationPage />}></Route>
+            <Route path="/profile/:id" element={<ProfilePage />}></Route>
+            <Route path="/article/:id" element={<ArticlePage />}></Route>
             {/** * - all other routes*/}
             {/*<Route path="*" element={<NotFoundPage />}></Route>*/}
         </Routes>

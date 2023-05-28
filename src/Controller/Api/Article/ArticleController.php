@@ -3,6 +3,7 @@
 namespace App\Controller\Api\Article;
 
 use App\DTO\Api\Article\ArticleCreationDTO;
+use App\DTO\Api\Article\ArticleResponseDTO;
 use App\Service\Article\ArticleService;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use JMS\Serializer\SerializerBuilder;
@@ -54,5 +55,35 @@ class ArticleController extends AbstractFOSRestController
         $this->service->createArticle($articleCreationDTO, $this->getUser());
 
         return new JsonResponse();
+    }
+
+    /**
+     * Get article by id
+    */
+    #[
+        Rest\Get(''),
+        OA\Parameter(
+            name: 'id',
+            in: 'query',
+            description: "Article's id",
+            schema: new OA\Schema(type: 'integer'),
+        ),
+        OA\Response(
+            response: Response::HTTP_OK,
+            description: 'ArticleResponseDTO',
+            content: new OA\JsonContent(
+                ref: new Model(
+                    type: ArticleResponseDTO::class
+                )
+            ),
+        ),
+        ]
+    public function getArticle(Request $request): JsonResponse
+    {
+        $id = $request->query->get('id');
+
+        $response = $this->service->getArticle($id);
+
+        return new JsonResponse($this->serializer->serialize($response, 'json'), json: true);
     }
 }

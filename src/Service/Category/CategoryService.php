@@ -2,6 +2,7 @@
 
 namespace App\Service\Category;
 
+use App\DTOBuilder\Api\Category\CategoryDTOBuilder;
 use App\Manager\Category\CategoryManager;
 
 class CategoryService
@@ -14,6 +15,12 @@ class CategoryService
 
     public function getAllCategories(): array
     {
-        return $this->manager->getAllCategories();
+        $categoriesDTOArray = [];
+        $categories = $this->manager->getAllCategories();
+        foreach ($categories as $category) {
+            $categoriesDTOArray[] = CategoryDTOBuilder::build($category);
+        }
+
+        return $categoriesDTOArray;
     }
 }

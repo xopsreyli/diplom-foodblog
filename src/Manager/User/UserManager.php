@@ -19,4 +19,9 @@ class UserManager
 
         return $user;
     }
+
+    public function getById(int $id): User
+    {
+        return $this->repository->find($id);
+    }
 }

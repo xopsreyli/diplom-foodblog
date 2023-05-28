@@ -2,17 +2,22 @@
 
 namespace App\Service\User;
 
+use App\DTO\Api\User\UserProfileResponseDTO;
 use App\DTO\Api\User\UserRegistrationDTO;
+use App\DTOBuilder\Api\Article\ArticleResponseDTOBuilder;
 use App\DTOBuilder\Api\User\UserRegistrationDTOBuilder;
 use App\Entity\User\User;
+use App\Enum\Minio\ImageBucketsEnum;
 use App\Manager\User\UserManager;
+use App\Service\Minio\MinioService;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserService
 {
     public function __construct(
         private UserManager $manager,
-        private UserPasswordHasherInterface $passwordHasher
+        private UserPasswordHasherInterface $passwordHasher,
+        private MinioService $minioService
     )
     {
     }
@@ -31,5 +36,22 @@ class UserService
         $this->manager->create($user);
 
         return $user;
+    }
+
+    public function profile(int $id): UserProfileResponseDTO
+    {
+        $userProfileResponseDTO = new UserProfileResponseDTO();
+
+        $user = $this->manager->getById($id);
+
+        $userProfileResponseDTO->id = $user->getId();
+        $userProfileResponseDTO->nickname = $user->getNickname();
+
+        $articles = $user->getArticles()->toArray();
+        foreach ($articles as $article) {
+            $userProfileResponseDTO->articles[] = ArticleResponseDTOBuilder::build($article);
+        }
+
+        return $userProfileResponseDTO;
     }
 }

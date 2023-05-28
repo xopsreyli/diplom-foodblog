@@ -12,11 +12,9 @@ class UserRegistrationDTOBuilder
     {
         $user = new User();
 
-        $user->setEmail($userRegistrationDTO->email)
-            ->setNickname($userRegistrationDTO->nickname)
-            ->setPassword($userRegistrationDTO->password)
-        ;
-
+        $user->setEmail($userRegistrationDTO->email);
+        $user->setNickname($userRegistrationDTO->nickname);
+        $user->setPassword($userRegistrationDTO->password);
 
         return $user;
     }

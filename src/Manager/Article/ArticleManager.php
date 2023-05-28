@@ -19,4 +19,9 @@ class ArticleManager
 
         return $article;
     }
+
+    public function getById(int $id): Article
+    {
+        return $this->repository->find($id);
+    }
 }

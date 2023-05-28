@@ -108,17 +108,11 @@ class Article
         $this->createdAt = $createdAt;
     }
 
-    /**
-     * @return string
-     */
     public function getCategory(): Category
     {
         return $this->category;
     }
 
-    /**
-     * @param string $title
-     */
     public function setCategory(Category $category): void
     {
         $this->category = $category;
