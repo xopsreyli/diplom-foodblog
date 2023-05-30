@@ -2,9 +2,11 @@
 
 namespace App\Service\User;
 
+use App\DTO\Api\User\UserDTO;
 use App\DTO\Api\User\UserProfileResponseDTO;
 use App\DTO\Api\User\UserRegistrationDTO;
 use App\DTOBuilder\Api\Article\ArticleResponseDTOBuilder;
+use App\DTOBuilder\Api\User\UserDTOBuilder;
 use App\DTOBuilder\Api\User\UserRegistrationDTOBuilder;
 use App\Entity\User\User;
 use App\Enum\Minio\ImageBucketsEnum;
@@ -38,14 +40,21 @@ class UserService
         return $user;
     }
 
+    public function logedUser(?User $user): UserDTO
+    {
+        if (!$user instanceof User) {
+            return new UserDTO();
+        }
+        return UserDTOBuilder::build($user);
+    }
+
     public function profile(int $id): UserProfileResponseDTO
     {
         $userProfileResponseDTO = new UserProfileResponseDTO();
 
         $user = $this->manager->getById($id);
 
-        $userProfileResponseDTO->id = $user->getId();
-        $userProfileResponseDTO->nickname = $user->getNickname();
+        $userProfileResponseDTO->user = UserDTOBuilder::build($user);
 
         $articles = $user->getArticles()->toArray();
         foreach ($articles as $article) {

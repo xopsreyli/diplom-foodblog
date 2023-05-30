@@ -35,6 +35,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(name: 'password', type: Types::STRING, nullable: false)]
     private string $password;
 
+    #[ORM\Column(name: 'image_key', type: Types::STRING, nullable: true)]
+    private ?string $imageKey = null;
+
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Article::class)]
     private ?Collection $articles = null;
 
@@ -110,6 +113,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getImageKey(): ?string
+    {
+        return $this->imageKey;
+    }
+
+    /**
+     * @param string|null $imageKey
+     */
+    public function setImageKey(?string $imageKey): void
+    {
+        $this->imageKey = $imageKey;
     }
 
     /**

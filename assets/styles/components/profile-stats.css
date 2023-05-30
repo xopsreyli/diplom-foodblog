@@ -1,0 +1,17 @@
+.profile-stat {
+    width: calc(100% / 3);
+    text-align: center;
+}
+
+.profile-stat-number {
+    display: block;
+    color: #9381FF;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.profile-stat-text{
+    display: block;
+    color: #000505;
+    font-size: 13px;
+}

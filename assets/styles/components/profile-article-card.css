@@ -1,0 +1,50 @@
+.profile-article-card {
+    width: 30%;
+    text-decoration: none;
+    margin-bottom: 5%;
+    background-color: #000505;
+    border: 4px solid #000505;
+    border-radius: 20px;
+    box-shadow: 0 0 4px #9A998C;
+    transition: .2s linear;
+}
+
+.profile-article-card:not(:nth-child(3n)) {
+    margin-right: 5%;
+}
+
+.pa-card-image-block {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 20px 20px 0 0;
+}
+
+.pa-card-image {
+    height: 200px;
+}
+
+.pa-card-title-block {
+    text-align: center;
+    padding: 8px 0;
+}
+
+.pa-card-title {
+    color: #9381FF;
+    font-size: 20px;
+    transition: .2s linear;
+}
+
+@media screen and (min-width: 993px) {
+
+    .profile-article-card:hover {
+        background-color: #9381FF;
+        border: 4px solid #9381FF;
+        box-shadow: none;
+    }
+
+    .profile-article-card:hover .pa-card-title {
+        color: #fefcfd;
+    }
+
+}

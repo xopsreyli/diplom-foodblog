@@ -7,12 +7,7 @@ use JMS\Serializer\Annotation\SerializedName;
 
 class UserProfileResponseDTO
 {
-    #[SerializedName('id')]
-    public int $id;
+    public UserDTO $user;
 
-    #[SerializedName('nickname')]
-    public string $nickname;
-
-    #[SerializedName('articles')]
     public array $articles;
 }

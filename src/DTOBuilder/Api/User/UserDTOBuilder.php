@@ -14,6 +14,7 @@ class UserDTOBuilder
         $userDTO->email = $user->getEmail();
         $userDTO->nickname = $user->getNickname();
         $userDTO->roles = $user->getRoles();
+        $userDTO->imageKey = $user->getImageKey();
 
         return $userDTO;
     }

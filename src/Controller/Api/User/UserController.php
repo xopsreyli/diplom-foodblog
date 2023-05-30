@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api\User;
 
+use App\DTO\Api\User\UserDTO;
 use App\DTO\Api\User\UserLoginDTO;
 use App\DTO\Api\User\UserProfileResponseDTO;
 use App\DTO\Api\User\UserRegistrationDTO;
@@ -95,6 +96,29 @@ class UserController extends AbstractFOSRestController
         return new JsonResponse();
     }
 
+    /**
+     * Returns info about current user
+    */
+    #[
+        Rest\Get(''),
+        OA\Response(
+            response: Response::HTTP_OK,
+            description: 'Returns info about loged user(UserDTO)',
+            content: new OA\JsonContent(
+                ref: new Model(
+                    type: UserDTO::class
+                )
+            ),
+        ),
+        ]
+    public function logedUser(): JsonResponse
+    {
+        return new JsonResponse($this->serializer->serialize($this->service->logedUser($this->getUser()), 'json'), json: true);
+    }
+
+    /**
+     * Returns info about user for profile page
+    */
     #[
         Rest\Get('/profile'),
         OA\Parameter(
@@ -105,7 +129,7 @@ class UserController extends AbstractFOSRestController
         ),
         OA\Response(
             response: Response::HTTP_OK,
-            description: 'Returns user profile data(id, nickname, articles)',
+            description: 'Returns user profile data(userDTO, articles)',
             content: new OA\JsonContent(
                 ref: new Model(
                     type: UserProfileResponseDTO::class

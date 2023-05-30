@@ -1,2 +1,24 @@
+/*
+Colors:
+    black: #000505,
+    violet: #9381FF,
+    aquamarine: #00FFC5,
+    grey: #9A998C,
+    white: #fefcfd
+*/
+
 body {
+    overflow-x: hidden;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+.main {
+    padding: 40px;
+    border: 1px solid red;
 }

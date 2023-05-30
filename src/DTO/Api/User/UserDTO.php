@@ -11,4 +11,6 @@ class UserDTO
     public string $nickname;
 
     public array $roles;
+
+    public ?string $imageKey;
 }

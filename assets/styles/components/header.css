@@ -1,0 +1,91 @@
+header {
+    height: 72px;
+    display: flex;
+    justify-content: space-between;
+    color: #fefcfd;
+    background-color: #000505;
+    padding: 0 40px;
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+}
+
+.nav-link {
+    position: relative;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fefcfd;
+    text-decoration: none;
+    margin-left: 40px;
+    transition: .2s linear;
+}
+
+.link-to-profile {
+    display: flex;
+}
+
+.link-to-profile-image-span {
+    display: flex;
+    border: 2px solid #fefcfd;
+    border-radius: 50%;
+    padding: 4px;
+    transition: .2s linear;
+}
+
+.link-to-profile-text {
+    display: flex;
+    align-items: center;
+    margin-left: 4px;
+}
+
+.nav-link::before,
+.nav-link::after {
+    position: absolute;
+    bottom: -4px;
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background-color: #fefcfd;
+    opacity: 0;
+    transition: .2s linear;
+}
+
+.nav-link::before {
+    left: 50%;
+}
+
+.nav-link::after {
+    right: 50%;
+}
+
+@media screen and (min-width: 993px) {
+
+    .nav-link:hover {
+        color: #9381FF;
+    }
+
+    .nav-link:hover::before {
+        opacity: 1;
+        width: 50%;
+        background-color: #9381FF;
+    }
+
+    .nav-link:hover::after {
+        opacity: 1;
+        width: 50%;
+        background-color: #9381FF;
+    }
+
+    .link-to-profile:hover .link-to-profile-image-span{
+        border: 2px solid #9381FF;
+    }
+
+}
