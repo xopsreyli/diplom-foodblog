@@ -40,7 +40,16 @@
 }
 
 .ph-left-avatar {
+    display: flex;
+    justify-content: center;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
     margin-bottom: 16px;
+}
+
+.ph-left-avatar-img {
+    width: 100%;
 }
 
 .ph-left-nickname {
@@ -71,7 +80,7 @@
     font-size: 18px;
     font-weight: 600;
     background-color: #fff;
-    box-shadow: 0 0 2px #9A998C;
+    box-shadow: 0 2px 2px #9381FF;
     padding: 4px 12px;
     margin: 0 auto;
     transition: .2s linear;

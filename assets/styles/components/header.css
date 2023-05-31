@@ -33,10 +33,16 @@ nav {
 
 .link-to-profile-image-span {
     display: flex;
+    width: 32px;
+    height: 32px;
     border: 2px solid #fefcfd;
     border-radius: 50%;
-    padding: 4px;
     transition: .2s linear;
+    overflow: hidden;
+}
+
+.link-to-profile-image {
+    width: 100%;
 }
 
 .link-to-profile-text {

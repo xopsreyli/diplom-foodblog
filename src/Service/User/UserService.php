@@ -5,9 +5,11 @@ namespace App\Service\User;
 use App\DTO\Api\User\UserDTO;
 use App\DTO\Api\User\UserProfileResponseDTO;
 use App\DTO\Api\User\UserRegistrationDTO;
+use App\DTO\Api\User\UserUpdateDTO;
 use App\DTOBuilder\Api\Article\ArticleResponseDTOBuilder;
 use App\DTOBuilder\Api\User\UserDTOBuilder;
 use App\DTOBuilder\Api\User\UserRegistrationDTOBuilder;
+use App\DTOBuilder\Minio\ImageDTOBuilder;
 use App\Entity\User\User;
 use App\Enum\Minio\ImageBucketsEnum;
 use App\Manager\User\UserManager;
@@ -62,5 +64,21 @@ class UserService
         }
 
         return $userProfileResponseDTO;
+    }
+
+    public function update(UserUpdateDTO $userUpdateDTO, User $user): User
+    {
+        if ($user->getNickname() !== $userUpdateDTO->nickname) {
+            $user->setNickname($userUpdateDTO->nickname);
+        }
+
+        $imageDTO = ImageDTOBuilder::build($userUpdateDTO->image, ImageBucketsEnum::USER_BUCKET);
+        $user->setImageKey($imageDTO->key);
+
+        $this->minioService->uploadFile($imageDTO);
+
+        $user = $this->manager->update($user);
+
+        return $user;
     }
 }

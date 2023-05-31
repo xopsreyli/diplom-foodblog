@@ -6,7 +6,7 @@ use App\DTO\Api\User\UserDTO;
 use App\DTO\Api\User\UserLoginDTO;
 use App\DTO\Api\User\UserProfileResponseDTO;
 use App\DTO\Api\User\UserRegistrationDTO;
-use App\Entity\User\User;
+use App\DTO\Api\User\UserUpdateDTO;
 use App\Service\User\UserService;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use JMS\Serializer\SerializerBuilder;
@@ -144,5 +144,34 @@ class UserController extends AbstractFOSRestController
         $response = $this->service->profile($id);
 
         return new JsonResponse($this->serializer->serialize($response, 'json'), json: true);
+    }
+
+    /**
+     * Update user's avatar or nickname
+    */
+    #[
+        Rest\Post('/update'),
+        OA\RequestBody(
+            description: 'UserUpdateDTO(nickname in json and image as a file)',
+            required: true,
+            content: new OA\JsonContent(
+                ref: new Model(type: UserUpdateDTO::class)
+            ),
+        ),
+        OA\Response(
+            response: Response::HTTP_OK,
+            description: 'User was updated'
+        ),
+    ]
+    public function update(Request $request): JsonResponse
+    {
+        $userUpdateDTO = $this->serializer->deserialize($request->request->get('jsonData'), UserUpdateDTO::class, 'json');
+        if ($request->files->count()) {
+            $userUpdateDTO->image = $request->files->get('image');
+        }
+
+        $this->service->update($userUpdateDTO, $this->getUser());
+
+        return new JsonResponse();
     }
 }

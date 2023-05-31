@@ -15,7 +15,6 @@ function ArticlePage() {
             })
     }, [])
 
-
     return (
         <>
 

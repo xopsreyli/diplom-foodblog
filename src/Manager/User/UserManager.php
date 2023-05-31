@@ -13,9 +13,16 @@ class UserManager
     {
     }
 
-    public function create($user): User
+    public function create(User $user): User
     {
         $user = $this->repository->add($user, true);
+
+        return $user;
+    }
+
+    public function update(User $user): User
+    {
+        $user = $this->repository->save($user);
 
         return $user;
     }

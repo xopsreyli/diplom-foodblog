@@ -20,5 +20,10 @@ body {
 
 .main {
     padding: 40px;
-    border: 1px solid red;
+}
+
+.main-title {
+    color: #000505;
+    text-align: center;
+    margin-bottom: 40px;
 }

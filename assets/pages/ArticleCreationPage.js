@@ -19,10 +19,10 @@ function ArticleCreationPage() {
     async function sendArticleCreationData(e) {
         e.preventDefault()
 
-        const formData = new FormData();
+        const formData = new FormData()
         const imageInput = document.getElementById('image')
 
-        formData.append('avatar', imageInput.files[0]);
+        formData.append('avatar', imageInput.files[0])
         formData.append('jsonData', JSON.stringify({
             title: title,
             content: content,

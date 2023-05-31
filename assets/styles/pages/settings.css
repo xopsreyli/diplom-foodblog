@@ -1,0 +1,77 @@
+.settings-nav {
+    width: 400px;
+    margin: 0 auto;
+}
+
+.settings-nav-link,
+.settings-nav-link-logout {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px;
+    border-radius: 12px;
+    text-decoration: none;
+    margin-bottom: 20px;
+    transition: .2s linear;
+}
+
+.settings-nav-link {
+    border: 2px solid #000505;
+    box-shadow: 0 0 2px #9A998C;
+}
+
+.settings-nav-link-logout {
+    border: 2px solid #F28599;
+}
+
+.settings-nav-link-svg path,
+.settings-nav-link-svg-logout path {
+    transition: .2s linear;
+}
+
+.settings-nav-link-info-block {
+    display: flex;
+    align-items: center;
+}
+
+.settings-nav-link-text {
+    color: #9381FF;
+    font-size: 18px;
+}
+
+.settings-nav-link-text-logout {
+    color: #FC2A2A;
+}
+
+.settings-nav-link-info-block-svg {
+    opacity: 0;
+    margin-left: 16px;
+    transform: translateX(-16px);
+    transition: .2s linear;
+}
+
+@media screen and (min-width: 993px) {
+
+    .settings-nav-link:hover {
+        border: 2px solid #9381FF;
+        box-shadow: none;
+    }
+
+    .settings-nav-link-logout:hover {
+        border: 2px solid #FC2A2A;
+    }
+
+    .settings-nav-link-logout:hover .settings-nav-link-svg-logout path {
+        fill: #FC2A2A;
+    }
+
+    .settings-nav-link:hover .settings-nav-link-svg path {
+        fill: #9381FF;
+    }
+
+    .settings-nav-link:hover .settings-nav-link-info-block-svg,
+    .settings-nav-link-logout:hover .settings-nav-link-info-block-svg {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+}

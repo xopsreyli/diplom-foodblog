@@ -1,0 +1,111 @@
+.update-user-form {
+    width: 400px;
+    margin: 0 auto;
+}
+
+.ant-upload-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.ant-upload-list {
+    display: none;
+}
+
+.user-avatar-field {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 160px;
+    height: 160px;
+    border: 2px solid #000505;
+    border-radius: 50%;
+    transition: .2s linear;
+    overflow: hidden;
+}
+
+.uaf-hover-block {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 160px;
+    height: 160px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    background-color: rgba(0, 0, 0, .7);
+    transition: .2s linear;
+}
+
+.user-avatar-image {
+    width: 100%;
+}
+
+.uuf-nickname-block {
+    position: relative;
+    margin: 40px 0;
+}
+
+.uuf-nickname {
+    outline: none;
+    width: 100%;
+    border: 2px solid #000505;
+    font-size: 18px;
+    color: #000505;
+    border-radius: 8px;
+    padding: 8px 12px;
+    transition: .2s linear;
+}
+
+.uuf-nickname-length {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #9381FF;
+}
+
+.uuf-btn {
+    cursor: pointer;
+    display: block;
+    border: 2px solid #9381FF;
+    border-radius: 16px;
+    background-color: #fff;
+    box-shadow: 0 2px 2px #9381FF;
+    font-size: 18px;
+    font-weight: 600;
+    color: #9381FF;
+    padding: 8px 16px;
+    margin: 0 auto;
+    transition: .2s linear;
+}
+
+@media screen and (min-width: 993px) {
+
+    .user-avatar-field:hover {
+        border: 2px solid #9381FF;
+    }
+
+    .user-avatar-field:hover .uaf-hover-block {
+        opacity: 1;
+    }
+
+    .uuf-nickname:hover {
+        box-shadow: 0 0 4px #9381FF;
+    }
+
+    .uuf-nickname:focus {
+        border: 2px solid #9381FF;
+    }
+
+    .uuf-btn:hover {
+        background-color: #9381FF;
+        color: #fefcfd;
+        box-shadow: none;
+    }
+
+}
