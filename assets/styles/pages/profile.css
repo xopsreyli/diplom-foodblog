@@ -71,21 +71,6 @@
     margin: 0 auto;
 }
 
-.ph-right-button {
-    cursor: pointer;
-    display: block;
-    border: 2px solid #9381FF;
-    border-radius: 16px;
-    color: #9381FF;
-    font-size: 18px;
-    font-weight: 600;
-    background-color: #fff;
-    box-shadow: 0 2px 2px #9381FF;
-    padding: 4px 12px;
-    margin: 0 auto;
-    transition: .2s linear;
-}
-
 .profile-articles {
     display: flex;
     flex-wrap: wrap;
@@ -106,12 +91,6 @@
 
     .ps-link:hover path{
         fill: #9381FF;
-    }
-
-    .ph-right-button:hover {
-        background-color: #9381FF;
-        color: #fefcfd;
-        box-shadow: none;
     }
 
 }

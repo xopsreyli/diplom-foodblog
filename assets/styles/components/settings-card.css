@@ -1,0 +1,49 @@
+.settings-card {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px;
+    border-radius: 12px;
+    text-decoration: none;
+    border: 2px solid #000505;
+    box-shadow: 0 0 2px #9A998C;
+    margin-bottom: 20px;
+    transition: .2s linear;
+}
+
+.settings-card-svg path {
+    transition: .2s linear;
+}
+
+.settings-card-content {
+    display: flex;
+    align-items: center;
+}
+
+.settings-card-text {
+    color: #9381FF;
+    font-size: 18px;
+}
+
+.settings-card-content-svg {
+    opacity: 0;
+    margin-left: 16px;
+    transform: translateX(-16px);
+    transition: .2s linear;
+}
+
+@media screen and (min-width: 993px) {
+
+    .settings-card:hover {
+        box-shadow: none;
+    }
+
+    .settings-card:hover .settings-card-svg path {
+        fill: #9381FF;
+    }
+
+    .settings-card:hover .settings-card-content-svg {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+}

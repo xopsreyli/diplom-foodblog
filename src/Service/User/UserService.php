@@ -72,10 +72,12 @@ class UserService
             $user->setNickname($userUpdateDTO->nickname);
         }
 
-        $imageDTO = ImageDTOBuilder::build($userUpdateDTO->image, ImageBucketsEnum::USER_BUCKET);
-        $user->setImageKey($imageDTO->key);
+        if ($userUpdateDTO->image) {
+            $imageDTO = ImageDTOBuilder::build($userUpdateDTO->image, ImageBucketsEnum::USER_BUCKET);
+            $user->setImageKey($imageDTO->key);
 
-        $this->minioService->uploadFile($imageDTO);
+            $this->minioService->uploadFile($imageDTO);
+        }
 
         $user = $this->manager->update($user);
 

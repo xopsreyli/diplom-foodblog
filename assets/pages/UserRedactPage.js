@@ -3,6 +3,7 @@ import Header from "../components/Header"
 import '../styles/pages/user-redact-page.css'
 import { Upload } from 'antd'
 import ImgCrop from 'antd-img-crop'
+import Button from "../components/Button"
 
 function UserRedactPage() {
     const [user, setUser] = useState({})
@@ -99,7 +100,7 @@ function UserRedactPage() {
                         }/>
                         <span className='uuf-nickname-length'>{nickname.length} / 30</span>
                     </div>
-                    <input className='uuf-btn' type="submit" value='Изменить'/>
+                    <Button text='Изменить' />
                 </form>
             </div>
         </>

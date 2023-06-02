@@ -4,6 +4,7 @@ import Header from "../components/Header"
 import '../styles/pages/profile.css'
 import ProfileStats from "../components/ProfileStats";
 import ProfileArticleCard from "../components/ProfileArticleCard";
+import Button from "../components/Button";
 
 function ProfilePage() {
     let {id} = useParams()
@@ -61,7 +62,7 @@ function ProfilePage() {
         if (user.id !== profileUserData.user.id) {
             return (
                 <div className='ph-right-button-block'>
-                    <button className='ph-right-button'>Подписаться</button>
+                    <Button text='Подписаться'/>
                 </div>
             )
         }

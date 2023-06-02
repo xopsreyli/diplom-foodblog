@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class UserUpdateDTO
 {
     #[SerializedName('image')]
-    public ?UploadedFile $image;
+    public ?UploadedFile $image = null;
 
     #[SerializedName('nickname')]
     public string $nickname;
