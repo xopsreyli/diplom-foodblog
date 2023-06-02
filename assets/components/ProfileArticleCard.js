@@ -4,7 +4,7 @@ import '../styles/components/profile-article-card.css'
 
 function ProfileArticleCard(props) {
     return (
-        <Link className='profile-article-card' to='/'>
+        <Link className='profile-article-card' to={`/article/${props.id}`}>
             <div className='pa-card-image-block'>
                 <img className='pa-card-image' src={`http://localhost:9000/articles/${props.image}`} alt=""/>
             </div>

@@ -27,7 +27,7 @@ class Article
     #[ORM\Column(name: 'title', type: Types::STRING, nullable: false)]
     private string $title;
 
-    #[ORM\Column(name: 'content', type: Types::STRING, nullable: false)]
+    #[ORM\Column(name: 'content', type: Types::TEXT, nullable: false)]
     private string $content;
 
     #[ORM\Column(name: 'created_at', type: Types::DATETIME_MUTABLE, nullable: false)]
