@@ -3,8 +3,10 @@
 namespace App\Entity\Article;
 
 use App\Entity\Category\Category;
+use App\Entity\Comment\Comment;
 use App\Entity\User\User;
 use App\Repository\Article\ArticleRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -38,6 +40,9 @@ class Article
 
     #[ORM\Column(name: 'image_key', type: Types::STRING, nullable: false)]
     private string $imageKey;
+
+    #[ORM\OneToMany(mappedBy: 'article', targetEntity: Comment::class)]
+    private Collection $comments;
 
     public function getId(): ?int
     {
@@ -132,5 +137,13 @@ class Article
     public function setImageKey(string $imageKey): void
     {
         $this->imageKey = $imageKey;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
     }
 }
