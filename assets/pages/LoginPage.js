@@ -2,6 +2,8 @@ import React, {useState} from 'react'
 import Header from "../components/Header"
 import '../styles/pages/forms.css'
 import Button from "../components/Button"
+import {Link} from "react-router-dom"
+import '../styles/pages/login.css'
 
 function LoginPage() {
     const [email, setEmail] = useState('')
@@ -75,6 +77,10 @@ function LoginPage() {
                     </div>
                     <Button text='Войти'/>
                 </form>
+                <p className='no-account'>
+                    <span>Нет учетной записи?</span>
+                    <Link className='reg-link' to='/registration'>Зарегистрируйтесь</Link>
+                </p>
             </div>
         </>
     )

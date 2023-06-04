@@ -32,6 +32,13 @@ class ArticleRepository extends ServiceEntityRepository
         return $entity;
     }
 
+    public function save(Article $entity): Article
+    {
+        $this->getEntityManager()->flush($entity);
+
+        return $entity;
+    }
+
     public function remove(Article $entity, bool $flush = false): Article
     {
         $this->getEntityManager()->remove($entity);

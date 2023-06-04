@@ -41,6 +41,9 @@ class Article
     #[ORM\Column(name: 'image_key', type: Types::STRING, nullable: false)]
     private string $imageKey;
 
+    #[ORM\Column(name: 'likes', type: Types::INTEGER, nullable: false)]
+    private int $likes = 0;
+
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Comment::class)]
     private Collection $comments;
 
@@ -145,5 +148,21 @@ class Article
     public function getComments(): Collection
     {
         return $this->comments;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLikes(): int
+    {
+        return $this->likes;
+    }
+
+    /**
+     * @param int $likes
+     */
+    public function setLikes(int $likes): void
+    {
+        $this->likes = $likes;
     }
 }

@@ -20,6 +20,13 @@ class ArticleManager
         return $article;
     }
 
+    public function update(Article $article): Article
+    {
+        $article = $this->repository->save($article);
+
+        return $article;
+    }
+
     public function getById(int $id): Article
     {
         return $this->repository->find($id);

@@ -30,6 +30,9 @@ class Comment
     #[ORM\Column(name: 'text', type: Types::TEXT, length: 300, nullable: false)]
     private string $text;
 
+    #[ORM\Column(name: 'created_at', type: Types::DATETIME_MUTABLE, nullable: false)]
+    private \DateTime $createdAt;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -81,5 +84,21 @@ class Comment
     public function setText(string $text): void
     {
         $this->text = $text;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt(): \DateTime
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param \DateTime $createdAt
+     */
+    public function setCreatedAt(\DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
     }
 }

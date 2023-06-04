@@ -21,4 +21,8 @@ class ArticleResponseDTO
     public CategoryDTO $category;
 
     public string $imageKey;
+
+    public array $comments;
+
+    public int $likes;
 }

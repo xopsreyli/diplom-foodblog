@@ -22,6 +22,7 @@ class CommentService
         $comment = new Comment();
         $comment->setUser($user);
         $comment->setText($commentCreationDTO->text);
+        $comment->setCreatedAt(new \DateTime('now'));
 
         $article = $this->articleManager->getById($commentCreationDTO->articleId);
         $comment->setArticle($article);

@@ -4,6 +4,7 @@ namespace App\Entity\User;
 
 use App\Entity\Article\Article;
 use App\Entity\Comment\Comment;
+use App\Entity\User\LikedArticle\LikedArticle;
 use App\Repository\User\UserRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -41,6 +42,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Article::class)]
     private ?Collection $articles = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: LikedArticle::class)]
+    private ?Collection $likedArticles;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Comment::class)]
     private ?Collection $comments = null;
