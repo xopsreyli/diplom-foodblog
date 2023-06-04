@@ -89,6 +89,36 @@
     transition: .2s linear;
 }
 
+.author-managment {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.link-to-update,
+.link-to-delete {
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 12px;
+    padding: 4px 12px;
+    margin: 0 auto 20px;
+    transition: .2s linear;
+}
+
+.link-to-update {
+    color: #000505;
+    border: 2px solid #000505;
+    background-color: #fefcfd;
+}
+
+.link-to-delete {
+    color: #fc2a2a;
+    border: 2px solid #fc2a2a;
+    background-color: #fefcfd;
+}
+
 .article-block-right {
     width: 60%;
 }
@@ -131,6 +161,16 @@
 
     .like-svg-disactive:hover path{
         stroke: #9381FF;
+    }
+
+    .link-to-update:hover {
+        color: #fefcfd;
+        background-color: #000505;
+    }
+
+    .link-to-delete:hover {
+        color: #fefcfd;
+        background-color: #fc2a2a;
     }
 
 }

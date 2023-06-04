@@ -44,6 +44,9 @@ class Article
     #[ORM\Column(name: 'likes', type: Types::INTEGER, nullable: false)]
     private int $likes = 0;
 
+    #[ORM\Column(name: 'deleted', type: Types::BOOLEAN, nullable: false)]
+    private bool $deleted = false;
+
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Comment::class)]
     private Collection $comments;
 
@@ -164,5 +167,15 @@ class Article
     public function setLikes(int $likes): void
     {
         $this->likes = $likes;
+    }
+
+    public function isDeleted(): bool
+    {
+        return $this->deleted;
+    }
+
+    public function delete(): void
+    {
+        $this->deleted = true;
     }
 }

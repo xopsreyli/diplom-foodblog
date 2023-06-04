@@ -60,7 +60,9 @@ class UserService
 
         $articles = $user->getArticles()->toArray();
         foreach ($articles as $article) {
-            $userProfileResponseDTO->articles[] = ArticleResponseDTOBuilder::build($article);
+            if (!$article->isDeleted()) {
+                $userProfileResponseDTO->articles[] = ArticleResponseDTOBuilder::build($article);
+            }
         }
 
         return $userProfileResponseDTO;

@@ -27,8 +27,11 @@ class ArticleManager
         return $article;
     }
 
-    public function getById(int $id): Article
+    public function getById(int $id): ?Article
     {
-        return $this->repository->find($id);
+        return $this->repository->findOneBy([
+            'id' => $id,
+            'deleted' => false,
+        ]);
     }
 }

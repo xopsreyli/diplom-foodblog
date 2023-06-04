@@ -86,4 +86,31 @@ class ArticleController extends AbstractFOSRestController
 
         return new JsonResponse($this->serializer->serialize($response, 'json'), json: true);
     }
+
+    /**
+     * Delete article
+    */
+    #[
+        Rest\Get('/delete'),
+        OA\Parameter(
+            name: 'id',
+            description: 'Id of the article to delete',
+            in: 'query',
+            schema: new OA\Schema(
+                type: 'integer'
+            )
+        ),
+        OA\Response(
+            response: Response::HTTP_OK,
+            description: 'Article was successfully deleted!'
+        ),
+    ]
+    public function delete(Request $request): JsonResponse
+    {
+        $id = $request->query->get('id');
+
+        $this->service->delete($id, $this->getUser());
+
+        return new JsonResponse();
+    }
 }

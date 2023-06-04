@@ -100,6 +100,25 @@ function ArticlePage() {
         )
     }
 
+    function deleteArticle(e) {
+        e.preventDefault()
+        fetch(`/api/article/delete?id=${id}`)
+            .then(response => {
+                return response.json()
+            })
+    }
+
+    function bUttonsForAuthor() {
+        if (user.id === article.user.id) {
+            return (
+                <div className='author-managment'>
+                    <Link className='link-to-update' to={`/article/${id}/update`}>Редактировать</Link>
+                    <Link className='link-to-delete' to='' onClick={deleteArticle}>Удалить</Link>
+                </div>
+            )
+        }
+    }
+
     if (Object.keys(article).length === 0) {
         return
     }
@@ -126,6 +145,7 @@ function ArticlePage() {
                             <span className='article-category-span'>Категория:</span>
                             <Link className='article-category' to=''>{article.category.name}</Link>
                         </div>
+                        {bUttonsForAuthor()}
                     </div>
                     <div className='article-block-right'>
                         <h1 className='article-title'>{article.title}</h1>

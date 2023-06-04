@@ -54,4 +54,18 @@ class ArticleService
 
         return $articleResponseDTO;
     }
+
+    public function delete(int $id, User $user): bool
+    {
+        $article = $this->manager->getById($id);
+
+        if ($article->getUser() === $user) {
+            $article->delete();
+            $this->manager->update($article);
+
+            return true;
+        }
+
+        return false;
+    }
 }

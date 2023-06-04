@@ -11,13 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
-    public function __construct(
-        private MinioService $minioService
-    )
-    {
-    }
-
-    #[Route('/{reactRouting}', defaults: ['reactRouting' => null])]
+     #[Route('/{reactRouting}', defaults: ['reactRouting' => null])]
     public function reactRouting(): Response
     {
         return $this->render('base.html.twig');
@@ -25,6 +19,12 @@ class DefaultController extends AbstractController
 
     #[Route('/{reactRouting}/{parameter}', defaults: ['reactRouting' => null, 'parameter' => null])]
     public function reactRoutingWithParameter(): Response
+    {
+        return $this->render('base.html.twig');
+    }
+
+    #[Route('/{reactRouting}/{parameter}/{parameter2}', defaults: ['reactRouting' => null, 'parameter' => null, 'parameter2' => null])]
+    public function reactRoutingWithTwoParameter(): Response
     {
         return $this->render('base.html.twig');
     }
