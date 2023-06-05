@@ -12,6 +12,7 @@ use App\DTOBuilder\Api\User\UserRegistrationDTOBuilder;
 use App\DTOBuilder\Minio\ImageDTOBuilder;
 use App\Entity\User\User;
 use App\Enum\Minio\ImageBucketsEnum;
+use App\Manager\Article\ArticleManager;
 use App\Manager\User\UserManager;
 use App\Service\Minio\MinioService;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -21,7 +22,8 @@ class UserService
     public function __construct(
         private UserManager $manager,
         private UserPasswordHasherInterface $passwordHasher,
-        private MinioService $minioService
+        private MinioService $minioService,
+        private ArticleManager $articleManager
     )
     {
     }
@@ -58,11 +60,10 @@ class UserService
 
         $userProfileResponseDTO->user = UserDTOBuilder::build($user);
 
-        $articles = $user->getArticles()->toArray();
+        $articles = $this->articleManager->getNonDeletedByUser($user);
+        dump($articles);
         foreach ($articles as $article) {
-            if (!$article->isDeleted()) {
-                $userProfileResponseDTO->articles[] = ArticleResponseDTOBuilder::build($article);
-            }
+            $userProfileResponseDTO->articles[] = ArticleResponseDTOBuilder::build($article);
         }
 
         return $userProfileResponseDTO;

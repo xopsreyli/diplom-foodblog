@@ -1,0 +1,75 @@
+.article-card {
+    text-decoration: none;
+    cursor: pointer;
+    width: 22%;
+    margin-bottom: 4%;
+    border: 2px solid #9381FF;
+    box-shadow: 0 4px 8px #9381FF;
+    color: #000505;
+    border-radius: 16px;
+    transition: .2s linear;
+}
+
+.article-card:not(:nth-child(4n)) {
+    margin-right: 4%;
+}
+
+.article-card-header {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+}
+
+.article-card-author-img {
+    width: 24px;
+    border-radius: 50%;
+}
+
+.article-card-author-nickname {
+    color: #000505;
+    margin-left: 8px;
+}
+
+.article-card-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    max-height: 200px;
+}
+
+.article-card-img {
+    width: 100%;
+}
+
+.article-card-title {
+    color: #000505;
+    font-size: 20px;
+    text-align: center;
+    margin: 8px 0;
+}
+
+.article-card-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+}
+
+.article-card-likes-block {
+    display: flex;
+    align-items: center;
+}
+
+.article-card-likes {
+    margin-left: 8px;
+    color: #9381FF;
+}
+
+@media screen and (min-width: 993px) {
+
+    .article-card:hover {
+        box-shadow: none;
+    }
+
+}
+

@@ -3,6 +3,7 @@
 namespace App\Manager\Article;
 
 use App\Entity\Article\Article;
+use App\Entity\User\User;
 use App\Repository\Article\ArticleRepository;
 
 class ArticleManager
@@ -31,6 +32,21 @@ class ArticleManager
     {
         return $this->repository->findOneBy([
             'id' => $id,
+            'deleted' => false,
+        ]);
+    }
+
+    public function getNonDeletedByUser(User $user): array
+    {
+        return $this->repository->findBy([
+            'user' => $user,
+            'deleted' => false,
+        ]);
+    }
+
+    public function getAll(): array
+    {
+        return $this->repository->findBy([
             'deleted' => false,
         ]);
     }

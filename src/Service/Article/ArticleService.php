@@ -4,6 +4,7 @@ namespace App\Service\Article;
 
 use App\DTO\Api\Article\ArticleCreationDTO;
 use App\DTO\Api\Article\ArticleResponseDTO;
+use App\DTO\Api\Article\ArticlesResponseDTO;
 use App\DTO\Api\Category\CategoryDTO;
 use App\DTO\Api\User\UserDTO;
 use App\DTO\Minio\ImageDTO;
@@ -67,5 +68,17 @@ class ArticleService
         }
 
         return false;
+    }
+
+    public function getAllArticles(): ArticlesResponseDTO
+    {
+        $articles = $this->manager->getAll();
+
+        $response = new ArticlesResponseDTO();
+        foreach ($articles as $article) {
+            $response->articles[] = ArticleResponseDTOBuilder::build($article);
+        }
+
+        return $response;
     }
 }

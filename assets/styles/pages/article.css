@@ -144,6 +144,54 @@
     margin: 40px auto 0;
 }
 
+.confirm-delete-block {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid #9381FF;
+    box-shadow: 0 0 8px #9381FF;
+    border-radius: 20px;
+    background-color: #9381FF;
+    padding: 20px;
+    z-index: 100;
+    transition: .2s linear;
+}
+
+.confirm-delete-text {
+    text-align: center;
+    color: #fefcfd;
+}
+
+.confirm-delete-buttons {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 20px;
+}
+
+.confirm-delete,
+.disconfirm-delete {
+    cursor: pointer;
+    outline: none;
+    font-size: 18px;
+    padding: 4px 12px;
+    border: none;
+    border-radius: 12px;
+    transition: .2s linear;
+}
+
+.disconfirm-delete {
+    color: #9381FF;
+    background-color: #fff;
+    box-shadow: 2px 2px 2px #000505;
+}
+
+.confirm-delete {
+    color: #fc2a2a;
+    background-color: #fff;
+    box-shadow: 2px 2px 2px #fc2a2a;
+}
+
 @media screen and (min-width: 993px) {
 
     .article-author:hover .article-author-nick {
@@ -171,6 +219,17 @@
     .link-to-delete:hover {
         color: #fefcfd;
         background-color: #fc2a2a;
+    }
+
+    .disconfirm-delete:hover {
+        color: #fefcfd;
+        background-color: #000505;
+        box-shadow: 0 0 2px #000505;
+    }
+    .confirm-delete:hover {
+        color: #fefcfd;
+        background-color: #fc2a2a;
+        box-shadow: 0 0 2px #fc2a2a;
     }
 
 }

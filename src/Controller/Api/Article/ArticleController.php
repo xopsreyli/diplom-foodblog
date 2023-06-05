@@ -113,4 +113,19 @@ class ArticleController extends AbstractFOSRestController
 
         return new JsonResponse();
     }
+
+    /**
+     * Get all articles
+    */
+    #[
+        Rest\Get('/all'),
+        OA\Response(
+            response: Response::HTTP_OK,
+            description: 'Returns an array af all articles'
+        ),
+    ]
+    public function getAllArticles(): JsonResponse
+    {
+        return new JsonResponse($this->serializer->serialize($this->service->getAllArticles(), 'json'), json: true);
+    }
 }

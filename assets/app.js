@@ -19,6 +19,7 @@ import ArticlePage from "./pages/ArticlePage"
 import SettingsPage from "./pages/SettingsPage"
 import UserRedactPage from "./pages/UserRedactPage"
 import ArticleUpdatePage from "./pages/ArticleUpdatePage"
+import SearchPage from "./pages/SearchPage";
 
 
 const root = createRoot(document.getElementById("root"));
@@ -33,7 +34,7 @@ root.render(
             <Route path="/profile/:id" element={<ProfilePage />}></Route>
             <Route path="/settings" element={<SettingsPage />}></Route>
             <Route path="/settings/update" element={<UserRedactPage />}></Route>
-            <Route path="/search"></Route>
+            <Route path="/search" element={<SearchPage />}></Route>
             <Route path="/article/:id" element={<ArticlePage />}></Route>
             <Route path="/article/:id/update" element={<ArticleUpdatePage />}></Route>
             {/** * - all other routes*/}

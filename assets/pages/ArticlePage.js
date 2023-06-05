@@ -15,6 +15,7 @@ function ArticlePage() {
     const [commentLength, setCommentLength] = useState(0)
     const [commentValue, setCommentValue] = useState('')
     const [isLiked, setIsLiked] = useState(false)
+    const [confirmDelete, setConfirmDelete] = useState('none')
 
     useEffect(() => {
         getArticle()
@@ -113,7 +114,7 @@ function ArticlePage() {
             return (
                 <div className='author-managment'>
                     <Link className='link-to-update' to={`/article/${id}/update`}>Редактировать</Link>
-                    <Link className='link-to-delete' to='' onClick={deleteArticle}>Удалить</Link>
+                    <Link className='link-to-delete' to='' onClick={() => setConfirmDelete('block')}>Удалить</Link>
                 </div>
             )
         }
@@ -170,6 +171,13 @@ function ArticlePage() {
                             <Comment comment={comment}/>
                         )
                     })}
+                </div>
+                <div className='confirm-delete-block' style={{display: confirmDelete}}>
+                    <h3 className='confirm-delete-text'>Вы точно хотите удалить данную статью?</h3>
+                    <div className='confirm-delete-buttons'>
+                        <button className='disconfirm-delete' onClick={() => setConfirmDelete('none')}>Нет</button>
+                        <button className='confirm-delete' onClick={deleteArticle}>Да</button>
+                    </div>
                 </div>
             </div>
         </>
