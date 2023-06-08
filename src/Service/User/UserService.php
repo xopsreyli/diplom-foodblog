@@ -76,6 +76,9 @@ class UserService
         }
 
         if ($userUpdateDTO->image) {
+            if ($user->getImageKey()) {
+                $this->minioService->deleteFile($user->getImageKey(), ImageBucketsEnum::USER_BUCKET);
+            }
             $imageDTO = ImageDTOBuilder::build($userUpdateDTO->image, ImageBucketsEnum::USER_BUCKET);
             $user->setImageKey($imageDTO->key);
 

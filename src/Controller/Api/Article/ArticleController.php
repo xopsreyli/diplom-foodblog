@@ -3,7 +3,9 @@
 namespace App\Controller\Api\Article;
 
 use App\DTO\Api\Article\ArticleCreationDTO;
+use App\DTO\Api\Article\ArticleCreationResponseDTO;
 use App\DTO\Api\Article\ArticleResponseDTO;
+use App\DTO\Api\Article\ArticleUpdateDTO;
 use App\Service\Article\ArticleService;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use JMS\Serializer\SerializerBuilder;
@@ -39,12 +41,19 @@ class ArticleController extends AbstractFOSRestController
             description: 'ArticleCreationDTO(image, title, content, category_id)',
             required: true,
             content: new OA\JsonContent(
-                ref: new Model(type: ArticleCreationDTO::class)
+                ref: new Model(
+                    type: ArticleCreationDTO::class
+                )
             ),
         ),
         OA\Response(
             response: Response::HTTP_OK,
-            description: 'Article created successfully!',
+            description: 'Article created successfully! Returns ArticleCreationResponseDTO(id)',
+            content: new OA\JsonContent(
+                ref: new Model(
+                    type: ArticleCreationResponseDTO::class
+                )
+            ),
         ),
     ]
     public function createArticle(Request $request): JsonResponse
@@ -52,9 +61,9 @@ class ArticleController extends AbstractFOSRestController
         $articleCreationDTO = $this->serializer->deserialize($request->request->get('jsonData'), ArticleCreationDTO::class, 'json');
         $articleCreationDTO->image = $request->files->get('avatar');
 
-        $this->service->createArticle($articleCreationDTO, $this->getUser());
+        $response = $this->service->createArticle($articleCreationDTO, $this->getUser());
 
-        return new JsonResponse();
+        return new JsonResponse($this->serializer->serialize($response, 'json'), json: true);
     }
 
     /**
@@ -127,5 +136,36 @@ class ArticleController extends AbstractFOSRestController
     public function getAllArticles(): JsonResponse
     {
         return new JsonResponse($this->serializer->serialize($this->service->getAllArticles(), 'json'), json: true);
+    }
+
+    /**
+     * Update article
+    */
+    #[
+        Rest\Post('/update'),
+        OA\RequestBody(
+            description: 'ArticleUpdateDTO(id, img, title, content, category)',
+            required: true,
+            content: new OA\JsonContent(
+                ref: new Model(
+                    type: ArticleUpdateDTO::class
+                )
+            ),
+        ),
+        OA\Response(
+            response: Response::HTTP_OK,
+            description: 'Article was updated successfully'
+        ),
+    ]
+    public function update(Request $request): JsonResponse
+    {
+        $articleRequestDTO = $this->serializer->deserialize($request->request->get('jsonData'), ArticleUpdateDTO::class, 'json');
+        if ($request->files->count()) {
+            $articleRequestDTO->image = $request->files->get('img');
+        }
+
+        $this->service->update($articleRequestDTO, $this->getUser());
+
+        return new JsonResponse();
     }
 }

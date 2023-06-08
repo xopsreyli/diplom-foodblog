@@ -57,6 +57,14 @@ class MinioService
         ]);
     }
 
+    public function deleteFile(string $key, string $bucketName): void
+    {
+        $this->s3Client->deleteObject([
+            'Bucket' => $bucketName,
+            'Key' => $key,
+        ]);
+    }
+
     public function getObjectUrl(string $bucket, string $key): string
     {
         return $this->s3Client->getObjectUrl($bucket, $key);

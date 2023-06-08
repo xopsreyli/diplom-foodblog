@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Link, useParams} from "react-router-dom"
+import {Link, useNavigate, useParams} from "react-router-dom"
 import Header from "../components/Header"
 import '../styles/pages/article.css'
 import moment from "moment"
@@ -10,6 +10,7 @@ import Comment from "../components/Comment"
 
 function ArticlePage() {
     let {id} = useParams()
+    const navigate = useNavigate()
     const [user, setUser] = useState({})
     const [article, setArticle] = useState({})
     const [commentLength, setCommentLength] = useState(0)
@@ -101,12 +102,13 @@ function ArticlePage() {
         )
     }
 
-    function deleteArticle(e) {
+    async function deleteArticle(e) {
         e.preventDefault()
-        fetch(`/api/article/delete?id=${id}`)
-            .then(response => {
-                return response.json()
-            })
+        const response = await fetch(`/api/article/delete?id=${id}`)
+
+        if (200 === response.status) {
+            navigate(`/profile/${user.id}`)
+        }
     }
 
     function bUttonsForAuthor() {

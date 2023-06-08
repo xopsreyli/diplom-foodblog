@@ -3,8 +3,10 @@ import Header from "../components/Header"
 import '../styles/pages/forms.css'
 import Button from "../components/Button"
 import '../styles/pages/article-creation.css'
+import {useNavigate} from "react-router-dom";
 
 function ArticleCreationPage() {
+    const navigate = useNavigate()
     const [categories, setCategories] = useState([])
     const [img, setImg] = useState()
     const [title, setTitle] = useState('')
@@ -13,12 +15,8 @@ function ArticleCreationPage() {
 
     useEffect(() => {
         fetch('/api/category')
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                setCategories(data)
-            });
+            .then(response => response.json())
+            .then(data => setCategories(data))
     }, [])
 
     async function sendArticleCreationData(e) {
@@ -37,8 +35,12 @@ function ArticleCreationPage() {
             method: 'POST',
             body: formData,
         })
-        
-        return await response.json()
+
+        const result = await response.json()
+
+        if (200 === response.status) {
+            navigate(`/article/${result.id}`)
+        }
     }
 
     return (

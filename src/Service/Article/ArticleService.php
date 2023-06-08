@@ -3,8 +3,10 @@
 namespace App\Service\Article;
 
 use App\DTO\Api\Article\ArticleCreationDTO;
+use App\DTO\Api\Article\ArticleCreationResponseDTO;
 use App\DTO\Api\Article\ArticleResponseDTO;
 use App\DTO\Api\Article\ArticlesResponseDTO;
+use App\DTO\Api\Article\ArticleUpdateDTO;
 use App\DTO\Api\Category\CategoryDTO;
 use App\DTO\Api\User\UserDTO;
 use App\DTO\Minio\ImageDTO;
@@ -27,7 +29,7 @@ class ArticleService
     {
     }
 
-    public function createArticle(ArticleCreationDTO $articleCreationDTO, User $user): Article
+    public function createArticle(ArticleCreationDTO $articleCreationDTO, User $user): ArticleCreationResponseDTO
     {
         $article = new Article();
         $article->setUser($user);
@@ -42,9 +44,12 @@ class ArticleService
 
         $this->minioService->uploadFile($imageDTO);
 
-        $this->manager->create($article);
+        $article = $this->manager->create($article);
 
-        return $article;
+        $response = new ArticleCreationResponseDTO();
+        $response->id = $article->getId();
+
+        return $response;
     }
 
     public function getArticle(int $id): ArticleResponseDTO
@@ -80,5 +85,35 @@ class ArticleService
         }
 
         return $response;
+    }
+
+    public function update(ArticleUpdateDTO $articleUpdateDTO, User $user): ?Article
+    {
+        dump($articleUpdateDTO);
+        $article = $this->manager->getById($articleUpdateDTO->id);
+
+        if ($article->getUser() !== $user) {
+            return null;
+        }
+        if ($articleUpdateDTO->image) {
+            $imageDTO = ImageDTOBuilder::build($articleUpdateDTO->image, ImageBucketsEnum::ARTICLE_BUCKET);
+            $this->minioService->deleteFile($article->getImageKey(), ImageBucketsEnum::ARTICLE_BUCKET);
+            $this->minioService->uploadFile($imageDTO);
+            $article->setImageKey($imageDTO->key);
+        }
+        if ($article->getTitle() !== $articleUpdateDTO->title) {
+            $article->setTitle($articleUpdateDTO->title);
+        }
+        if ($article->getContent() !== $articleUpdateDTO->content) {
+            $article->setContent($articleUpdateDTO->content);
+        }
+        if ($article->getCategory()->getId() !== $articleUpdateDTO->categoryId) {
+            $category = $this->categoryManager->getCategoryById($articleUpdateDTO->categoryId);
+            $article->setCategory($category);
+        }
+
+        $this->manager->update($article);
+
+        return $article;
     }
 }

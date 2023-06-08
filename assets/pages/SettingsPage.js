@@ -1,13 +1,19 @@
 import React from 'react'
 import Header from "../components/Header"
 import '../styles/pages/settings.css'
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import SettingsCard from "../components/SettingsCard"
 
 function SettingsPage() {
+    const navigate = useNavigate()
+
     async function logout(e) {
         e.preventDefault()
-        await fetch('/api/user/logout')
+        const response = await fetch('/api/user/logout')
+
+        if (200 === response.status) {
+            navigate('/')
+        }
     }
 
     return (

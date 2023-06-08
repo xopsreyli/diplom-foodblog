@@ -2,8 +2,10 @@ import React, {useState} from 'react'
 import Header from "../components/Header"
 import Button from "../components/Button"
 import '../styles/pages/forms.css'
+import {useNavigate} from "react-router-dom";
 
 function RegistrationPage() {
+    const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [nickname, setNickname] = useState('')
     const [password, setPassword] = useState('')
@@ -24,7 +26,9 @@ function RegistrationPage() {
             }
         })
 
-        return await response.json()
+        if (200 === response.status) {
+            navigate('/login')
+        }
     }
 
     function changePasswordType() {
