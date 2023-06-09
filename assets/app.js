@@ -19,7 +19,9 @@ import ArticlePage from "./pages/ArticlePage"
 import SettingsPage from "./pages/SettingsPage"
 import UserRedactPage from "./pages/UserRedactPage"
 import ArticleUpdatePage from "./pages/ArticleUpdatePage"
-import SearchPage from "./pages/SearchPage";
+import SearchPage from "./pages/SearchPage"
+import FollowersPage from "./pages/FollowersPage"
+import FollowsPage from "./pages/FollowsPage"
 
 
 const root = createRoot(document.getElementById("root"));
@@ -32,6 +34,8 @@ root.render(
             <Route path="/login" element={<LoginPage />}></Route>
             <Route path="/article/create" element={<ArticleCreationPage />}></Route>
             <Route path="/profile/:id" element={<ProfilePage />}></Route>
+            <Route path="/profile/:id/followers" element={<FollowersPage />}></Route>
+            <Route path="/profile/:id/follows" element={<FollowsPage />}></Route>
             <Route path="/settings" element={<SettingsPage />}></Route>
             <Route path="/settings/update" element={<UserRedactPage />}></Route>
             <Route path="/search" element={<SearchPage />}></Route>

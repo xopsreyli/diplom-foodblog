@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {useParams, Link} from "react-router-dom"
+import {useParams, Link, useNavigate} from "react-router-dom"
 import Header from "../components/Header"
 import '../styles/pages/profile.css'
 import ProfileStats from "../components/ProfileStats";
@@ -10,20 +10,42 @@ function ProfilePage() {
     let {id} = useParams()
     const [user, setUser] = useState({})
     const [profileUserData, setProfileUserData] = useState({})
+    const [isFollowed, setIsFollowed] = useState(false)
 
     useEffect(() => {
-        fetch(`/api/user/profile?id=${id}`)
+        getPageData()
+
+        fetch('/api/user')
+            .then(response => response.json())
+            .then(data => setUser(data))
+
+        isFollowing()
+    }, [id])
+
+    async function isFollowing() {
+        const response = await fetch('/api/user/followed', {
+            method: 'POST',
+            body: JSON.stringify({
+                id: id
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+
+        const data = await response.json()
+        setIsFollowed(data.is_followed)
+    }
+
+    async function getPageData() {
+        const response = await fetch(`/api/user/profile?id=${id}`)
             .then((response) => {
                 return response.json()
             })
             .then((data) => {
                 setProfileUserData(data)
             })
-
-        fetch('/api/user')
-            .then(response => response.json())
-            .then(data => setUser(data))
-    }, [id])
+    }
 
     function settingsButton() {
         if (user.id === profileUserData.user.id) {
@@ -58,13 +80,40 @@ function ProfilePage() {
         )
     }
 
+    async function sendFollowRequest() {
+        const response = await fetch(`/api/user/follow`, {
+            method: 'POST',
+            body: JSON.stringify({
+                id: id
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+
+        getPageData()
+        setIsFollowed(!isFollowed)
+    }
+
     function subscribeButton() {
         if (user.id !== profileUserData.user.id) {
-            return (
-                <div className='ph-right-button-block'>
-                    <Button text='Подписаться'/>
-                </div>
-            )
+            if (!isFollowed) {
+                return (
+                    <div className='ph-right-button-block'>
+                        <div onClick={sendFollowRequest}>
+                            <Button text='Подписаться'/>
+                        </div>
+                    </div>
+                )
+            } else {
+                return (
+                    <div className='ph-right-button-block'>
+                        <div onClick={sendFollowRequest}>
+                            <button className='unfollow-btn'>Отписаться</button>
+                        </div>
+                    </div>
+                )
+            }
         }
 
         return (
@@ -88,9 +137,9 @@ function ProfilePage() {
                     </div>
                     <div className='ph-right'>
                         <div className='ph-right-stats'>
-                            <ProfileStats number='666' text='articles'/>
-                            <ProfileStats number='666' text='subscribers'/>
-                            <ProfileStats number='666' text='subcriptions'/>
+                            <ProfileStats to={''} number={profileUserData.articles.length} text='articles'/>
+                            <ProfileStats to={`/profile/${id}/followers`} number={profileUserData.followers} text='followers'/>
+                            <ProfileStats to={`/profile/${id}/follows`} number={profileUserData.follows} text='follows'/>
                         </div>
                         {subscribeButton()}
                     </div>

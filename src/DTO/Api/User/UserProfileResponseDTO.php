@@ -9,5 +9,9 @@ class UserProfileResponseDTO
 {
     public UserDTO $user;
 
+    public int $followers;
+
+    public int $follows;
+
     public array $articles;
 }

@@ -72,5 +72,13 @@ services:
     networks:
       - diplom
 
+  mailer:
+    container_name: diplom_mailcatcher
+    image: schickling/mailcatcher
+    ports:
+      - '1080:1080'
+    networks:
+      - diplom
+
 networks:
   diplom:

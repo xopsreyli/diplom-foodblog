@@ -49,6 +49,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Comment::class)]
     private ?Collection $comments = null;
 
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'follows')]
+    private Collection $followers;
+
+    #[ORM\JoinTable(name: 'follows')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'follows_user_id', referencedColumnName: 'id')]
+    #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'followers')]
+    private Collection $follows;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -153,5 +162,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getComments(): ?Collection
     {
         return $this->comments;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getFollowers(): Collection
+    {
+        return $this->followers;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getFollows(): Collection
+    {
+        return $this->follows;
     }
 }

@@ -1,0 +1,32 @@
+.followers {
+    width: 400px;
+    margin: 0 auto;
+}
+
+.follow-search-box {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.follow-search {
+    outline: none;
+    font-size: 18px;
+    color: #000505;
+    border: 2px solid #000505;
+    border-radius: 8px;
+    padding: 4px;
+    transition: .2s linear;
+}
+
+@media screen and (min-width: 993px) {
+
+    .follow-search:hover {
+        border: 2px solid #9381FF;
+    }
+
+    .follow-search:focus {
+        border: 2px solid #9381FF;
+    }
+
+}

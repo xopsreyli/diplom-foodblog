@@ -7,11 +7,13 @@ use Aws\S3\S3Client;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Compiler\RegisterTokenUsageTrackingPass;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
-     #[Route('/{reactRouting}', defaults: ['reactRouting' => null])]
+    #[Route('/{reactRouting}', defaults: ['reactRouting' => null])]
     public function reactRouting(): Response
     {
         return $this->render('base.html.twig');

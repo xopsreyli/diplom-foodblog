@@ -2,6 +2,10 @@
 
 namespace App\Controller\Api\User;
 
+use App\DTO\Api\User\FollowersDTO;
+use App\DTO\Api\User\FollowRequestDTO;
+use App\DTO\Api\User\IsFollowedDTO;
+use App\DTO\Api\User\PasswordDTO;
 use App\DTO\Api\User\UserDTO;
 use App\DTO\Api\User\UserLoginDTO;
 use App\DTO\Api\User\UserProfileResponseDTO;
@@ -14,7 +18,6 @@ use JMS\Serializer\SerializerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -130,7 +133,7 @@ class UserController extends AbstractFOSRestController
         ),
         OA\Response(
             response: Response::HTTP_OK,
-            description: 'Returns user profile data(userDTO, articles)',
+            description: 'Returns user profile data(userDTO, followers, follows, articles)',
             content: new OA\JsonContent(
                 ref: new Model(
                     type: UserProfileResponseDTO::class
@@ -172,6 +175,230 @@ class UserController extends AbstractFOSRestController
         }
 
         $this->service->update($userUpdateDTO, $this->getUser());
+
+        return new JsonResponse();
+    }
+
+    /**
+     * Follow or unfollow user, depends on current status
+    */
+    #[
+        Rest\Post('/follow'),
+        OA\RequestBody(
+            description: 'FollowRequestDTO(id)',
+            required: true,
+            content: new OA\JsonContent(
+                ref: new Model(
+                    type: FollowRequestDTO::class
+                )
+            ),
+        ),
+        OA\Response(
+            response: Response::HTTP_OK,
+            description: 'User followed or unfollowed'
+        ),
+    ]
+    public function follow(Request $request): JsonResponse
+    {
+        $followRequestDTO = $this->serializer->deserialize($request->getContent(), FollowRequestDTO::class, 'json');
+
+        $this->service->follow($followRequestDTO, $this->getUser());
+
+        return new JsonResponse();
+    }
+
+    /**
+     * returns info if user is followed or not
+    */
+    #[
+        Rest\Post('/followed'),
+        OA\RequestBody(
+            description: 'FollowRequestDTO(id)',
+            required: true,
+            content: new OA\JsonContent(
+                ref: new Model(
+                    type: FollowRequestDTO::class
+                )
+            ),
+        ),
+        OA\Response(
+            response: Response::HTTP_OK,
+            description: 'true if followed and false if not',
+            content: new OA\JsonContent(
+                ref: new Model(
+                    type: IsFollowedDTO::class
+                )
+            ),
+        ),
+    ]
+    public function isFollowed(Request $request): JsonResponse
+    {
+        $followRequestDTO = $this->serializer->deserialize($request->getContent(), FollowRequestDTO::class, 'json');
+
+        $response = $this->service->isFollowed($followRequestDTO, $this->getUser());
+
+        return new JsonResponse($this->serializer->serialize($response, 'json'), json: true);
+    }
+
+    /**
+     * Returns all followers of the user
+    */
+    #[
+        Rest\Get('/followers'),
+        OA\Parameter(
+            name: 'id',
+            in: 'query',
+            description: 'Id of the user whos followers need to return',
+            schema: new OA\Schema(
+                type: 'integer'
+            ),
+        ),
+        OA\Response(
+            response: Response::HTTP_OK,
+            description: 'Followers of the user',
+            content: new OA\JsonContent(
+                ref: new Model(
+                    type: FollowersDTO::class
+                )
+            ),
+        ),
+    ]
+    public function followers(Request $request): JsonResponse
+    {
+        $id = $request->query->get('id');
+
+        $response = $this->service->followers($id);
+
+        return new JsonResponse($this->serializer->serialize($response, 'json'), json: true);
+    }
+
+    /**
+     * Returns all follows of the user
+     */
+    #[
+        Rest\Get('/follows'),
+        OA\Parameter(
+            name: 'id',
+            in: 'query',
+            description: 'Id of the user whos follows need to return',
+            schema: new OA\Schema(
+                type: 'integer'
+            ),
+        ),
+        OA\Response(
+            response: Response::HTTP_OK,
+            description: 'Follows of the user',
+            content: new OA\JsonContent(
+                ref: new Model(
+                    type: FollowersDTO::class
+                )
+            ),
+        ),
+    ]
+    public function follows(Request $request): JsonResponse
+    {
+        $id = $request->query->get('id');
+
+        $response = $this->service->follows($id);
+
+        return new JsonResponse($this->serializer->serialize($response, 'json'), json: true);
+    }
+
+    /**
+     * Check if password is right and send code
+    */
+    #[
+        Rest\Post('/password/restore'),
+        OA\RequestBody(
+            description: 'Password of the user',
+            required: true,
+            content: new OA\JsonContent(
+                ref: new Model(
+                    type: PasswordDTO::class
+                )
+            ),
+        ),
+        OA\Response(
+            response: Response::HTTP_OK,
+            description: 'Code to restore password was sent'
+        ),
+        OA\Response(
+            response: Response::HTTP_BAD_REQUEST,
+            description: 'Code to restore password was sent'
+        ),
+    ]
+    public function getPasswordToResetAndSendCode(Request $request): JsonResponse
+    {
+        $passwordDTO = $this->serializer->deserialize($request->getContent(), PasswordDTO::class, 'json');
+
+        $result = $this->service->getPasswordToResetAndSendCode($passwordDTO, $this->getUser());
+
+        if ($result) {
+            return new JsonResponse();
+        }
+
+        return new JsonResponse(status: 400);
+    }
+
+    /**
+     * Check if the code to restore password is right
+     */
+    #[
+        Rest\Get('/password/restore/code'),
+        OA\Parameter(
+            name: 'code',
+            in: 'query',
+            description: 'Code to restore password',
+            schema: new OA\Schema(
+                type: 'integer'
+            )
+        ),
+        OA\Response(
+            response: Response::HTTP_OK,
+            description: 'Code to restore password is right'
+        ),
+        OA\Response(
+            response: Response::HTTP_BAD_REQUEST,
+            description: 'Code to restore password is wrong'
+        ),
+    ]
+    public function checkCodeToRestorePassword(Request $request): JsonResponse
+    {
+        $code = $request->query->get('code');
+
+        $result = $this->service->checkCodeToRestorePassword($code, $this->getUser());
+
+        if ($result) {
+            return new JsonResponse();
+        }
+
+        return new JsonResponse(status: 400);
+    }
+
+    /**
+     * Set new password to the user
+    */
+    #[
+        Rest\Post('/password/restore/new'),
+        OA\RequestBody(
+            description: 'New password',
+            required: true,
+            content: new OA\JsonContent(
+                ref: new Model(
+                    type: PasswordDTO::class
+                )
+            ),
+        ),
+        OA\Response(
+            response: Response::HTTP_OK,
+            description: 'Password was changed successfully'
+        ),
+    ]
+    public function setNewPassword(Request $request): JsonResponse
+    {
+        $passwordDTO = $this->serializer->deserialize($request->getContent(), PasswordDTO::class, 'json');
+
+        $this->service->restorePassword($passwordDTO, $this->getUser());
 
         return new JsonResponse();
     }

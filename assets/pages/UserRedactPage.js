@@ -4,8 +4,10 @@ import '../styles/pages/user-redact-page.css'
 import { Upload } from 'antd'
 import ImgCrop from 'antd-img-crop'
 import Button from "../components/Button"
+import {useNavigate} from "react-router-dom";
 
 function UserRedactPage() {
+    const navigate = useNavigate()
     const [user, setUser] = useState({})
     const [img, setImg] = useState(null)
     const [nickname, setNickname] = useState('')
@@ -78,7 +80,9 @@ function UserRedactPage() {
             body: formData,
         })
 
-        return await response.json()
+        if (200 === response.status) {
+            navigate(`/profile/${user.id}`)
+        }
     }
 
     return (

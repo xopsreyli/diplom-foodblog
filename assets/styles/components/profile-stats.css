@@ -1,6 +1,7 @@
 .profile-stat {
     width: calc(100% / 3);
     text-align: center;
+    text-decoration: none;
 }
 
 .profile-stat-number {

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\DTO\Api\User\LikedArticle;
+namespace App\DTO\Api\User;
 
 use JMS\Serializer\Annotation\SerializedName;
 
-class LikedArticleRequestDTO
+class FollowRequestDTO
 {
     #[SerializedName('id')]
     public int $id;
