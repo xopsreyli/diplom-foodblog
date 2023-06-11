@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api\User;
 
+use App\DTO\Api\User\CodeDTO;
 use App\DTO\Api\User\FollowersDTO;
 use App\DTO\Api\User\FollowRequestDTO;
 use App\DTO\Api\User\IsFollowedDTO;
@@ -308,7 +309,7 @@ class UserController extends AbstractFOSRestController
      * Check if password is right and send code
     */
     #[
-        Rest\Post('/password/restore'),
+        Rest\Post('/password/reset'),
         OA\RequestBody(
             description: 'Password of the user',
             required: true,
@@ -344,29 +345,29 @@ class UserController extends AbstractFOSRestController
      * Check if the code to restore password is right
      */
     #[
-        Rest\Get('/password/restore/code'),
-        OA\Parameter(
-            name: 'code',
-            in: 'query',
+        Rest\Post('/password/reset/code'),
+        OA\RequestBody(
             description: 'Code to restore password',
-            schema: new OA\Schema(
-                type: 'integer'
-            )
+            content: new OA\JsonContent(
+                ref: new Model(
+                    type: CodeDTO::class
+                )
+            ),
         ),
         OA\Response(
             response: Response::HTTP_OK,
-            description: 'Code to restore password is right'
+            description: 'Code to reset password is right'
         ),
         OA\Response(
             response: Response::HTTP_BAD_REQUEST,
             description: 'Code to restore password is wrong'
         ),
     ]
-    public function checkCodeToRestorePassword(Request $request): JsonResponse
+    public function checkCodeToResetPassword(Request $request): JsonResponse
     {
-        $code = $request->query->get('code');
+        $codeDTO = $this->serializer->deserialize($request->getContent(), CodeDTO::class, 'json');
 
-        $result = $this->service->checkCodeToRestorePassword($code, $this->getUser());
+        $result = $this->service->checkCodeToResetPassword($codeDTO, $this->getUser());
 
         if ($result) {
             return new JsonResponse();
@@ -379,7 +380,7 @@ class UserController extends AbstractFOSRestController
      * Set new password to the user
     */
     #[
-        Rest\Post('/password/restore/new'),
+        Rest\Post('/password/reset/new'),
         OA\RequestBody(
             description: 'New password',
             required: true,
@@ -398,7 +399,7 @@ class UserController extends AbstractFOSRestController
     {
         $passwordDTO = $this->serializer->deserialize($request->getContent(), PasswordDTO::class, 'json');
 
-        $this->service->restorePassword($passwordDTO, $this->getUser());
+        $this->service->resetPassword($passwordDTO, $this->getUser());
 
         return new JsonResponse();
     }

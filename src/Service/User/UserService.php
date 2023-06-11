@@ -2,6 +2,7 @@
 
 namespace App\Service\User;
 
+use App\DTO\Api\User\CodeDTO;
 use App\DTO\Api\User\FollowersDTO;
 use App\DTO\Api\User\FollowRequestDTO;
 use App\DTO\Api\User\IsFollowedDTO;
@@ -180,11 +181,11 @@ class UserService
         return false;
     }
 
-    public function checkCodeToRestorePassword(int $code, User $user): bool
+    public function checkCodeToResetPassword(CodeDTO $codeDTO, User $user): bool
     {
         $session = $this->requestStack->getSession();
         $name = 'user_' . $user->getId() . '_code';
-        if ($session->get($name) === $code) {
+        if ($session->get($name) === $codeDTO->code) {
             $session->clear();
             return true;
         }
@@ -192,7 +193,7 @@ class UserService
         return false;
     }
 
-    public function restorePassword(PasswordDTO $passwordDTO, User $user): User
+    public function resetPassword(PasswordDTO $passwordDTO, User $user): User
     {
         $hashedPassword = $this->passwordHasher->hashPassword(
             $user,
