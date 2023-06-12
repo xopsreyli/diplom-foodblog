@@ -50,4 +50,14 @@ class ArticleManager
             'deleted' => false,
         ]);
     }
+
+    public function latest10(): array
+    {
+        return $this->repository->latest10();
+    }
+
+    public function popular(): array
+    {
+        return $this->repository->popular();
+    }
 }

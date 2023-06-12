@@ -49,4 +49,26 @@ class ArticleRepository extends ServiceEntityRepository
 
         return $entity;
     }
+
+    public function latest10(): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.deleted = :deleted')
+            ->setParameter('deleted', false)
+            ->orderBy('a.id', 'DESC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function popular(): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.deleted = :deleted')
+            ->setParameter('deleted', false)
+            ->orderBy('a.likes', 'DESC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
 }

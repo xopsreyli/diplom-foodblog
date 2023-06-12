@@ -1,0 +1,53 @@
+.slider-block {
+    margin-bottom: 40px;
+}
+
+.slider-title {
+    color: #000505;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.slider-box {
+    display: flex;
+}
+
+.slider-button-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+}
+
+.slider-btn {
+    cursor: pointer;
+}
+
+.slider-btn path {
+    transition: .2s linear;
+}
+
+.slider {
+    width: calc(100% - 96px);
+    overflow: hidden;
+    padding: 12px 0;
+}
+
+.slider-cards {
+    display: flex;
+    transition: .2s linear;
+}
+
+.slider-card-box {
+    width: 22%;
+    min-width: 22%;
+    margin-right: 4%;
+}
+
+@media screen and (min-width: 993px) {
+
+    .slider-btn:hover path {
+        fill: #9381FF;
+    }
+
+}

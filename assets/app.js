@@ -23,6 +23,7 @@ import SearchPage from "./pages/SearchPage"
 import FollowersPage from "./pages/FollowersPage"
 import FollowsPage from "./pages/FollowsPage"
 import UpdatePasswordPage from "./pages/UpdatePasswordPage"
+import NotFoundPage from "./pages/NotFoundPage";
 
 
 const root = createRoot(document.getElementById("root"));
@@ -43,8 +44,8 @@ root.render(
             <Route path="/search" element={<SearchPage />}></Route>
             <Route path="/article/:id" element={<ArticlePage />}></Route>
             <Route path="/article/:id/update" element={<ArticleUpdatePage />}></Route>
-            {/** * - all other routes*/}
-            {/*<Route path="*" element={<NotFoundPage />}></Route>*/}
+            <Route path="/404" element={<NotFoundPage />}></Route>
+            <Route path="*" element={<NotFoundPage />}></Route>
         </Routes>
     </BrowserRouter>
 );

@@ -62,11 +62,14 @@ class UserService
         return UserDTOBuilder::build($user);
     }
 
-    public function profile(int $id): UserProfileResponseDTO
+    public function profile(int $id): ?UserProfileResponseDTO
     {
         $userProfileResponseDTO = new UserProfileResponseDTO();
 
         $user = $this->manager->getById($id);
+        if (null === $user) {
+            return null;
+        }
 
         $userProfileResponseDTO->user = UserDTOBuilder::build($user);
 

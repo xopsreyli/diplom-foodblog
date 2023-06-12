@@ -40,14 +40,21 @@ function ArticlePage() {
 
     moment.locale('ru')
 
-    function getArticle() {
-        fetch(`/api/article?id=${id}`)
+    async function getArticle() {
+        const response = await fetch(`/api/article?id=${id}`)
             .then((response) => {
+                if (404 === response.status) {
+                    return navigate('/404')
+                }
                 return response.json()
             })
             .then((data) => {
                 setArticle(data)
             })
+
+        // if (404 === response.status) {
+        //     navigate('/404')
+        // }
     }
 
     async function addComment(e) {

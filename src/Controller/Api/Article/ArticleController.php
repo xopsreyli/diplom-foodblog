@@ -5,6 +5,7 @@ namespace App\Controller\Api\Article;
 use App\DTO\Api\Article\ArticleCreationDTO;
 use App\DTO\Api\Article\ArticleCreationResponseDTO;
 use App\DTO\Api\Article\ArticleResponseDTO;
+use App\DTO\Api\Article\ArticlesResponseDTO;
 use App\DTO\Api\Article\ArticleUpdateDTO;
 use App\Service\Article\ArticleService;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -86,12 +87,20 @@ class ArticleController extends AbstractFOSRestController
                 )
             ),
         ),
+        OA\Response(
+            response: Response::HTTP_NOT_FOUND,
+            description: 'Article was not found',
+        ),
         ]
     public function getArticle(Request $request): JsonResponse
     {
         $id = $request->query->get('id');
 
         $response = $this->service->getArticle($id);
+
+        if (null === $response) {
+            return new JsonResponse(status: 404);
+        }
 
         return new JsonResponse($this->serializer->serialize($response, 'json'), json: true);
     }
@@ -167,5 +176,45 @@ class ArticleController extends AbstractFOSRestController
         $this->service->update($articleRequestDTO, $this->getUser());
 
         return new JsonResponse();
+    }
+
+    /**
+     * Returns last 10 created articles
+    */
+    #[
+        Rest\Get('/latest'),
+        OA\Response(
+            response: Response::HTTP_OK,
+            description: 'Latest 10 articles',
+            content: new OA\JsonContent(
+                ref: new Model(
+                    type: ArticlesResponseDTO::class
+                )
+            ),
+        ),
+    ]
+    public function latest10Articles(): JsonResponse
+    {
+        return new JsonResponse($this->serializer->serialize($this->service->latest10Articles(), 'json'), json: true);
+    }
+
+    /**
+     * Returns most liked 10 articles
+     */
+    #[
+        Rest\Get('/popular'),
+        OA\Response(
+            response: Response::HTTP_OK,
+            description: 'Most popular articles',
+            content: new OA\JsonContent(
+                ref: new Model(
+                    type: ArticlesResponseDTO::class
+                )
+            ),
+        ),
+    ]
+    public function popularArticles(): JsonResponse
+    {
+        return new JsonResponse($this->serializer->serialize($this->service->popularArticles(), 'json'), json: true);
     }
 }

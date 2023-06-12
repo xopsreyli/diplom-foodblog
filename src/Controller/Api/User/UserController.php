@@ -141,12 +141,19 @@ class UserController extends AbstractFOSRestController
                 )
             ),
         ),
+        OA\Response(
+            response: Response::HTTP_NOT_FOUND,
+            description: 'User was not found',
+        ),
     ]
     public function profile(Request $request): JsonResponse
     {
         $id = $request->query->get('id');
 
         $response = $this->service->profile($id);
+        if (null === $response) {
+            return new JsonResponse(status: 404);
+        }
 
         return new JsonResponse($this->serializer->serialize($response, 'json'), json: true);
     }

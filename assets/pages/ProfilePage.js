@@ -8,6 +8,7 @@ import Button from "../components/Button";
 
 function ProfilePage() {
     let {id} = useParams()
+    const navigate = useNavigate()
     const [user, setUser] = useState({})
     const [profileUserData, setProfileUserData] = useState({})
     const [isFollowed, setIsFollowed] = useState(false)
@@ -40,6 +41,9 @@ function ProfilePage() {
     async function getPageData() {
         const response = await fetch(`/api/user/profile?id=${id}`)
             .then((response) => {
+                if (404 === response.status) {
+                    return navigate('/404')
+                }
                 return response.json()
             })
             .then((data) => {

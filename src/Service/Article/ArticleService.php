@@ -52,9 +52,12 @@ class ArticleService
         return $response;
     }
 
-    public function getArticle(int $id): ArticleResponseDTO
+    public function getArticle(int $id): ?ArticleResponseDTO
     {
         $article = $this->manager->getById($id);
+        if (null === $article) {
+            return null;
+        }
 
         $articleResponseDTO = ArticleResponseDTOBuilder::build($article);
 
@@ -115,5 +118,31 @@ class ArticleService
         $this->manager->update($article);
 
         return $article;
+    }
+
+    public function latest10Articles(): ArticlesResponseDTO
+    {
+        $articles = $this->manager->latest10();
+
+        $articlesResponseDTO = new ArticlesResponseDTO();
+
+        foreach ($articles as $article) {
+            $articlesResponseDTO->articles[] = ArticleResponseDTOBuilder::build($article);
+        }
+
+        return $articlesResponseDTO;
+    }
+
+    public function popularArticles(): ArticlesResponseDTO
+    {
+        $articles = $this->manager->popular();
+
+        $articlesResponseDTO = new ArticlesResponseDTO();
+
+        foreach ($articles as $article) {
+            $articlesResponseDTO->articles[] = ArticleResponseDTOBuilder::build($article);
+        }
+
+        return $articlesResponseDTO;
     }
 }

@@ -1,0 +1,35 @@
+.homepage-img {
+    display: block;
+    width: 50%;
+    border-radius: 5px;
+    box-shadow: 0 0 12px #9381FF;
+    margin: 0 auto 40px;
+}
+
+.description {
+    text-align: center;
+    color: #000505;
+    width: 72%;
+    margin: 0 auto 40px ;
+}
+
+.slogans {
+    width: 800px;
+    display: flex;
+    justify-content: space-evenly;
+    margin: 0 auto 40px;
+}
+
+.slogan-text {
+    text-align: center;
+    color: #9381FF;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.slogan-solo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+}
