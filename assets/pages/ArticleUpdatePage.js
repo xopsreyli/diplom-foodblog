@@ -3,6 +3,7 @@ import Header from "../components/Header"
 import {useNavigate, useParams} from "react-router-dom"
 import Button from "../components/Button"
 import '../styles/pages/forms.css'
+import Footer from "../components/Footer"
 
 function ArticleUpdatePage() {
     let {id} = useParams()
@@ -97,6 +98,7 @@ function ArticleUpdatePage() {
                     <Button text='Редактировать' />
                 </form>
             </div>
+            <Footer />
         </>
     )
 }

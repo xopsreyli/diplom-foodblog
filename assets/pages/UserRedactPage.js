@@ -4,7 +4,8 @@ import '../styles/pages/user-redact-page.css'
 import { Upload } from 'antd'
 import ImgCrop from 'antd-img-crop'
 import Button from "../components/Button"
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom"
+import Footer from "../components/Footer"
 
 function UserRedactPage() {
     const navigate = useNavigate()
@@ -107,6 +108,7 @@ function UserRedactPage() {
                     <Button text='Изменить' />
                 </form>
             </div>
+            <Footer />
         </>
     )
 }

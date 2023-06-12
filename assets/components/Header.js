@@ -63,7 +63,7 @@ function Header() {
                     </defs>
                 </svg>
             </Link>
-            <nav>
+            <nav className='header-nav'>
                 <Link className='nav-link' to="/">Главная</Link>
                 <Link className='nav-link' to="/search">Поиск</Link>
                 <Link className='nav-link' to="/article/create">Добавить</Link>

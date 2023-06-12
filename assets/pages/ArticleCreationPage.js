@@ -3,7 +3,8 @@ import Header from "../components/Header"
 import '../styles/pages/forms.css'
 import Button from "../components/Button"
 import '../styles/pages/article-creation.css'
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom"
+import Footer from "../components/Footer"
 
 function ArticleCreationPage() {
     const navigate = useNavigate()
@@ -84,6 +85,7 @@ function ArticleCreationPage() {
                     <Button text='Создать' />
                 </form>
             </div>
+            <Footer />
         </>
     )
 }

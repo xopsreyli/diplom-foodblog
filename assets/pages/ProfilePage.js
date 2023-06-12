@@ -2,9 +2,10 @@ import React, {useEffect, useState} from 'react'
 import {useParams, Link, useNavigate} from "react-router-dom"
 import Header from "../components/Header"
 import '../styles/pages/profile.css'
-import ProfileStats from "../components/ProfileStats";
-import ProfileArticleCard from "../components/ProfileArticleCard";
-import Button from "../components/Button";
+import ProfileStats from "../components/ProfileStats"
+import ProfileArticleCard from "../components/ProfileArticleCard"
+import Button from "../components/Button"
+import Footer from "../components/Footer"
 
 function ProfilePage() {
     let {id} = useParams()
@@ -156,6 +157,7 @@ function ProfilePage() {
                     })}
                 </div>
             </div>
+            <Footer />
         </>
     )
 }

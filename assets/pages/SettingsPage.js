@@ -3,6 +3,7 @@ import Header from "../components/Header"
 import '../styles/pages/settings.css'
 import {Link, useNavigate} from "react-router-dom"
 import SettingsCard from "../components/SettingsCard"
+import Footer from "../components/Footer"
 
 function SettingsPage() {
     const navigate = useNavigate()
@@ -39,6 +40,7 @@ function SettingsPage() {
                     } />
                 </div>
             </div>
+            <Footer />
         </>
     )
 }

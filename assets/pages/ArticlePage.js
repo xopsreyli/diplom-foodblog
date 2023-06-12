@@ -7,6 +7,7 @@ import 'moment/locale/ru'
 import Button from "../components/Button"
 import '../styles/pages/forms.css'
 import Comment from "../components/Comment"
+import Footer from "../components/Footer"
 
 function ArticlePage() {
     let {id} = useParams()
@@ -189,6 +190,7 @@ function ArticlePage() {
                     </div>
                 </div>
             </div>
+            <Footer />
         </>
     )
 }

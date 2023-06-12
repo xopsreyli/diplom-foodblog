@@ -2,7 +2,8 @@ import React, {useEffect, useState} from 'react'
 import Header from "../components/Header"
 import {useParams} from "react-router-dom"
 import '../styles/pages/follow.css'
-import UserFollowCard from "../components/UserFollowCard";
+import UserFollowCard from "../components/UserFollowCard"
+import Footer from "../components/Footer"
 
 function FollowersPage() {
     let { id} = useParams()
@@ -37,6 +38,7 @@ function FollowersPage() {
                     }
                 </div>
             </div>
+            <Footer />
         </>
     )
 }

@@ -4,6 +4,7 @@ import '../styles/pages/forms.css'
 import Button from "../components/Button"
 import {Link, useNavigate} from "react-router-dom"
 import '../styles/pages/login.css'
+import Footer from "../components/Footer"
 
 function LoginPage() {
     const navigate = useNavigate()
@@ -85,6 +86,7 @@ function LoginPage() {
                     <Link className='reg-link' to='/registration'>Зарегистрируйтесь</Link>
                 </p>
             </div>
+            <Footer />
         </>
     )
 }

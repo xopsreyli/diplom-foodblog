@@ -2,7 +2,8 @@ import React, {useState} from 'react'
 import Header from "../components/Header"
 import '../styles/pages/update-password-page.css'
 import Button from "../components/Button"
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom"
+import Footer from "../components/Footer"
 
 function UpdatePasswordPage() {
     const navigate = useNavigate()
@@ -112,6 +113,7 @@ function UpdatePasswordPage() {
             <div className='main'>
                 {stage}
             </div>
+            <Footer />
         </>
     )
 }

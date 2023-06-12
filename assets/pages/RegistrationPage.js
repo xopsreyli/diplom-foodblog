@@ -2,7 +2,8 @@ import React, {useState} from 'react'
 import Header from "../components/Header"
 import Button from "../components/Button"
 import '../styles/pages/forms.css'
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom"
+import Footer from "../components/Footer"
 
 function RegistrationPage() {
     const navigate = useNavigate()
@@ -127,6 +128,7 @@ function RegistrationPage() {
                     <Button text='Зарегестироваться' />
                 </form>
             </div>
+            <Footer />
         </>
     )
 }

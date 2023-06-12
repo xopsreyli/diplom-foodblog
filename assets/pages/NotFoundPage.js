@@ -3,6 +3,7 @@ import Header from "../components/Header"
 import '../styles/pages/not-found-page.css'
 import {Link} from "react-router-dom"
 import Button from "../components/Button"
+import Footer from "../components/Footer"
 
 function NotFoundPage() {
     return (
@@ -18,6 +19,7 @@ function NotFoundPage() {
                     </Link>
                 </div>
             </div>
+            <Footer />
         </>
     )
 }

@@ -3,6 +3,7 @@ import Header from "../components/Header"
 import foodBlogImage from '../../public/img/foodblog.png'
 import '../styles/pages/homepage.css'
 import Slider from "../components/Slider"
+import Footer from "../components/Footer"
 
 function HomePage() {
     const [latest, setLatest] = useState()
@@ -63,6 +64,7 @@ function HomePage() {
                     <p className='slogan-text'>Cook yourself</p>
                 </div>
             </div>
+            <Footer />
         </>
     )
 }
