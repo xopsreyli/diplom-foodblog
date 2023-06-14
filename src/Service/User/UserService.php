@@ -24,6 +24,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UserService
 {
@@ -34,12 +35,19 @@ class UserService
         private ArticleManager $articleManager,
         private MailerInterface $mailer,
         private RequestStack $requestStack,
+        private ValidatorInterface $validator
     )
     {
     }
 
-    public function registration(UserRegistrationDTO $userRegistrationDTO): User
+    public function registration(UserRegistrationDTO $userRegistrationDTO): ?User
     {
+        $errors = $this->validator->validate($userRegistrationDTO);
+
+        if (count($errors) > 0) {
+            return null;
+        }
+
         $user = UserRegistrationDTOBuilder::build($userRegistrationDTO);
 
         $hashedPassword = $this->passwordHasher->hashPassword(

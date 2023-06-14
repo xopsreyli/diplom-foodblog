@@ -54,12 +54,20 @@ class UserController extends AbstractFOSRestController
             response: Response::HTTP_OK,
             description: 'Registration completed successfully!',
         ),
+        OA\Response(
+            response: Response::HTTP_UNPROCESSABLE_ENTITY,
+            description: 'Registration completed successfully!',
+        ),
     ]
     public function registration(Request $request): JsonResponse
     {
         $userRegistrationDTO = $this->serializer->deserialize($request->getContent(), UserRegistrationDTO::class, 'json');
 
-        $this->service->registration($userRegistrationDTO);
+        $response = $this->service->registration($userRegistrationDTO);
+
+        if (null === $response) {
+            return new JsonResponse(status: 422);
+        }
 
         return new JsonResponse();
     }

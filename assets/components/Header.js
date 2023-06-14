@@ -19,7 +19,7 @@ function Header() {
    function resolveLinks() {
        if (Object.keys(user).length === 0) {
            return (
-               <Link className='nav-link' to="/login">Войти</Link>
+               <Link className='nav-link' to="/login">Log in</Link>
            )
        } else {
            if (user.image_key) {
@@ -64,9 +64,9 @@ function Header() {
                 </svg>
             </Link>
             <nav className='header-nav'>
-                <Link className='nav-link' to="/">Главная</Link>
-                <Link className='nav-link' to="/search">Поиск</Link>
-                <Link className='nav-link' to="/article/create">Добавить</Link>
+                <Link className='nav-link' to="/">Home</Link>
+                <Link className='nav-link' to="/search">Search</Link>
+                <Link className='nav-link' to="/article/create">Add</Link>
                 {resolveLinks()}
             </nav>
         </header>

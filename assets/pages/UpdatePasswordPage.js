@@ -12,6 +12,7 @@ function UpdatePasswordPage() {
     const [newPassword, setNewPassword] = useState('')
     const [repeatNewPassword, setRepeatNewPassword] = useState('')
     const [step, setStep] = useState('oldPassword')
+    const [error, setError] = useState('')
 
     async function sendCurrentPassword(e) {
         e.preventDefault()
@@ -27,6 +28,9 @@ function UpdatePasswordPage() {
 
         if (200 === response.status) {
             setStep('code')
+            setError('')
+        } else {
+            setError('Wrong password!')
         }
     }
 
@@ -44,23 +48,28 @@ function UpdatePasswordPage() {
 
         if (200 === response.status) {
             setStep('newPassword')
+            setError('')
+        } else {
+            setError('Code is wrong!')
         }
     }
 
     async function sendNewPassword(e) {
         e.preventDefault()
-        const response = await fetch('/api/user/password/reset/new', {
-            method: 'POST',
-            body: JSON.stringify({
-                password: newPassword
-            }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
+        if (newPassword !== repeatNewPassword) {
+            setError('Passwords mismatch!')
+        } else {
+            const response = await fetch('/api/user/password/reset/new', {
+                method: 'POST',
+                body: JSON.stringify({
+                    password: newPassword
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
 
-        if (200 === response.status) {
-            navigate('/')
+            setStep('success')
         }
     }
 
@@ -69,40 +78,49 @@ function UpdatePasswordPage() {
     if ('oldPassword' === step) {
         stage = (
             <div>
-                <h1 className='main-title'>Введите старый пароль</h1>
+                <h1 className='main-title'>Enter old Password</h1>
                 <form className='update-pswd-form' onSubmit={sendCurrentPassword}>
                     <input className='update-pswd-input' type="password" placeholder='Password' onChange={(e) => {
                         setCurrentPswd(e.target.value)
                     }}/>
-                    <Button text='Отправить'/>
+                    <p className='error-message'>{error}</p>
+                    <Button text='Send'/>
                 </form>
             </div>
         )
     } else if ('code' === step) {
         stage = (
             <div>
-                <h1 className='main-title'>Введите код</h1>
+                <h1 className='main-title'>Enter code</h1>
                 <form className='update-pswd-form' onSubmit={sendCode}>
                     <input className='update-pswd-input' type="number" min='1000' max='9999' placeholder='Code' onChange={(e) => {
                         setCode(e.target.value)
                     }}/>
-                    <Button text='Отправить'/>
+                    <p className='error-message'>{error}</p>
+                    <Button text='Send'/>
+                </form>
+            </div>
+        )
+    } else if ('newPassword' === step) {
+        stage = (
+            <div>
+                <h1 className='main-title'>Create a new password</h1>
+                <form className='update-pswd-form' onSubmit={sendNewPassword}>
+                    <input className='update-pswd-input' type="password" value={newPassword} minLength='8' placeholder='New Password*' onChange={(e) => {
+                        setNewPassword(e.target.value)
+                    }}/>
+                    <input className='update-pswd-input' type="password" placeholder='Repeat New Password*' onChange={(e) => {
+                        setRepeatNewPassword(e.target.value)
+                    }}/>
+                    <p className='error-message'>{error}</p>
+                    <Button text='Send'/>
                 </form>
             </div>
         )
     } else {
         stage = (
             <div>
-                <h1 className='main-title'>Введите старый пароль</h1>
-                <form className='update-pswd-form' onSubmit={sendNewPassword}>
-                    <input className='update-pswd-input' type="password" value={newPassword} placeholder='New Password*' onChange={(e) => {
-                        setNewPassword(e.target.value)
-                    }}/>
-                    <input className='update-pswd-input' type="password" placeholder='Repeat New Password*' onChange={(e) => {
-                        setRepeatNewPassword(e.target.value)
-                    }}/>
-                    <Button text='Отправить'/>
-                </form>
+                <h1 className='main-title'>Password was successfully changed!</h1>
             </div>
         )
     }

@@ -12,6 +12,7 @@ function UserRedactPage() {
     const [user, setUser] = useState({})
     const [img, setImg] = useState(null)
     const [nickname, setNickname] = useState('')
+    const [error, setError] = useState('')
 
     useEffect(() => {
         fetch('/api/user')
@@ -68,21 +69,24 @@ function UserRedactPage() {
 
     async function sendData(e) {
         e.preventDefault()
+        if (nickname.length < 1) {
+            setError('Nickname should be at least 1 symbol')
+        } else {
+            const formData = new FormData()
 
-        const formData = new FormData()
+            formData.append('image', img)
+            formData.append('jsonData', JSON.stringify({
+                nickname: nickname
+            }))
 
-        formData.append('image', img)
-        formData.append('jsonData', JSON.stringify({
-            nickname: nickname
-        }))
+            const response = await fetch('/api/user/update', {
+                method: 'POST',
+                body: formData,
+            })
 
-        const response = await fetch('/api/user/update', {
-            method: 'POST',
-            body: formData,
-        })
-
-        if (200 === response.status) {
-            navigate(`/profile/${user.id}`)
+            if (200 === response.status) {
+                navigate(`/profile/${user.id}`)
+            }
         }
     }
 
@@ -90,7 +94,7 @@ function UserRedactPage() {
         <>
             <Header />
             <div className='main'>
-                <h1 className='main-title'>Редактирование</h1>
+                <h1 className='main-title'>Edit user</h1>
                 <form className='update-user-form' onSubmit={sendData}>
                     <ImgCrop quality={1} maxZoom={5}>
                         <Upload onChange={e => {
@@ -100,12 +104,13 @@ function UserRedactPage() {
                         </Upload>
                     </ImgCrop>
                     <div className='uuf-nickname-block'>
-                        <input className='uuf-nickname' type="text" value={nickname} maxLength={30} onChange={
+                        <input className='uuf-nickname' type="text" value={nickname} maxLength='30' onChange={
                             e => {setNickname(e.target.value)}
                         }/>
                         <span className='uuf-nickname-length'>{nickname.length} / 30</span>
                     </div>
-                    <Button text='Изменить' />
+                    <p className='error-message'>{error}</p>
+                    <Button text='Edit' />
                 </form>
             </div>
             <Footer />

@@ -20,7 +20,7 @@ function FollowersPage() {
         <>
             <Header />
             <div className='main'>
-                <h1 className='main-title'>Followers</h1>
+                <h1 className='main-title'>Follows</h1>
                 <div className='follow-search-box'>
                     <input className='follow-search' type="text" placeholder='Nickname' onChange={(e) => {
                         setSearch(e.target.value)

@@ -13,22 +13,29 @@ function RegistrationPage() {
     const [repeatedPassword, setRepeatedPassword] = useState('')
     const [passwordType, setPasswordType] = useState('password')
     const [passwordRepeatType, setPasswordRepeatType] = useState('password')
+    const [error, setError] = useState('')
     async function sendRegistrationData(e) {
         e.preventDefault()
-        const response = await fetch('/api/user/registration', {
-            method: 'POST',
-            body: JSON.stringify({
-                email: email,
-                nickname: nickname,
-                password: password
-            }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
+        if (password !== repeatedPassword) {
+            setError('Passwords mismatch!')
+        } else {
+            const response = await fetch('/api/user/registration', {
+                method: 'POST',
+                body: JSON.stringify({
+                    email: email,
+                    nickname: nickname,
+                    password: password
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
 
-        if (200 === response.status) {
-            navigate('/login')
+            if (200 === response.status) {
+                navigate('/login')
+            } else {
+                setError('Invalid data given, please try again')
+            }
         }
     }
 
@@ -96,7 +103,7 @@ function RegistrationPage() {
         <>
             <Header />
             <div className='main'>
-                <h1 className='main-title'>Регистрация</h1>
+                <h1 className='main-title'>Registration</h1>
                 <form className='form' onSubmit={sendRegistrationData}>
                     <div className='input-block'>
                         <input className='input' type='text' placeholder='Email' value={email} required='true' onChange={
@@ -110,7 +117,7 @@ function RegistrationPage() {
                         <span className='input-span'>{nickname.length} / 30</span>
                     </div>
                     <div className='input-block'>
-                        <input className='input' type={passwordType} placeholder='Password*' value={password} required='true' onChange={
+                        <input className='input' type={passwordType} placeholder='Password*' minLength='8' value={password} required='true' onChange={
                             (e) => {setPassword(e.target.value)}
                         }/>
                         <span className='input-span' onClick={changePasswordType}>
@@ -125,7 +132,8 @@ function RegistrationPage() {
                             {passwordRepeatSVG}
                         </span>
                     </div>
-                    <Button text='Зарегестироваться' />
+                    <p className='error-message'>{error}</p>
+                    <Button text='Register' />
                 </form>
             </div>
             <Footer />

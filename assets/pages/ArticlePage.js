@@ -3,7 +3,6 @@ import {Link, useNavigate, useParams} from "react-router-dom"
 import Header from "../components/Header"
 import '../styles/pages/article.css'
 import moment from "moment"
-import 'moment/locale/ru'
 import Button from "../components/Button"
 import '../styles/pages/forms.css'
 import Comment from "../components/Comment"
@@ -39,8 +38,6 @@ function ArticlePage() {
             })
     }, [])
 
-    moment.locale('ru')
-
     async function getArticle() {
         const response = await fetch(`/api/article?id=${id}`)
             .then((response) => {
@@ -52,10 +49,6 @@ function ArticlePage() {
             .then((data) => {
                 setArticle(data)
             })
-
-        // if (404 === response.status) {
-        //     navigate('/404')
-        // }
     }
 
     async function addComment(e) {
@@ -123,9 +116,25 @@ function ArticlePage() {
         if (user.id === article.user.id) {
             return (
                 <div className='author-managment'>
-                    <Link className='link-to-update' to={`/article/${id}/update`}>Редактировать</Link>
-                    <Link className='link-to-delete' to='' onClick={() => setConfirmDelete('block')}>Удалить</Link>
+                    <Link className='link-to-update' to={`/article/${id}/update`}>Edit article</Link>
+                    <Link className='link-to-delete' to='' onClick={() => setConfirmDelete('block')}>Delete</Link>
                 </div>
+            )
+        }
+    }
+
+    console.log(article)
+
+    function resolveAvatar() {
+        if (article.user.image_key) {
+            return (
+                <img className='article-author-img' src={`http://localhost:9000/avatars/${article.user.image_key}`}/>
+            )
+        } else {
+            return (
+                <svg width="24" height="24" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M50 0C36.25 0 25 14 25 31.25C25 48.5 36.25 62.5 50 62.5C63.75 62.5 75 48.5 75 31.25C75 14 63.75 0 50 0ZM23.875 62.5C10.625 63.125 0 74 0 87.5V100H100V87.5C100 74 89.5 63.125 76.125 62.5C69.375 70.125 60.125 75 50 75C39.875 75 30.625 70.125 23.875 62.5Z" fill="#000505"/>
+                </svg>
             )
         }
     }
@@ -142,7 +151,7 @@ function ArticlePage() {
                     <div className='article-block-left'>
                         <div className='article-block-left-header'>
                             <Link className='article-author' to={`/profile/${article.user.id}`}>
-                                <img className='article-author-img' src={`http://localhost:9000/avatars/${article.user.image_key}`}/>
+                                {resolveAvatar()}
                                 <span className='article-author-nick'>{article.user.nickname}</span>
                             </Link>
                             <span className='article-created-at'>{moment(article.created_at).fromNow()}</span>
@@ -153,8 +162,8 @@ function ArticlePage() {
                             {likeButton()}
                         </div>
                         <div className='article-category-block'>
-                            <span className='article-category-span'>Категория:</span>
-                            <Link className='article-category' to=''>{article.category.name}</Link>
+                            <span className='article-category-span'>Category:</span>
+                            <Link className='article-category' to='/search'>{article.category.name}</Link>
                         </div>
                         {bUttonsForAuthor()}
                     </div>
@@ -173,7 +182,7 @@ function ArticlePage() {
                         }/>
                         <span className='input-span'>{commentLength} / 300</span>
                     </div>
-                    <Button text='Оставить отзыв' />
+                    <Button text='Leave comment' />
                 </form>
                 <div className='comments-block'>
                     {article.comments?.map(comment => {
@@ -183,10 +192,10 @@ function ArticlePage() {
                     })}
                 </div>
                 <div className='confirm-delete-block' style={{display: confirmDelete}}>
-                    <h3 className='confirm-delete-text'>Вы точно хотите удалить данную статью?</h3>
+                    <h3 className='confirm-delete-text'>Are you sure you want to delete this article?</h3>
                     <div className='confirm-delete-buttons'>
-                        <button className='disconfirm-delete' onClick={() => setConfirmDelete('none')}>Нет</button>
-                        <button className='confirm-delete' onClick={deleteArticle}>Да</button>
+                        <button className='disconfirm-delete' onClick={() => setConfirmDelete('none')}>No</button>
+                        <button className='confirm-delete' onClick={deleteArticle}>Yes</button>
                     </div>
                 </div>
             </div>

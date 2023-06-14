@@ -56,13 +56,21 @@ class ArticleController extends AbstractFOSRestController
                 )
             ),
         ),
+        OA\Response(
+            response: Response::HTTP_UNPROCESSABLE_ENTITY,
+            description: 'Wrong data given!',
+        ),
     ]
     public function createArticle(Request $request): JsonResponse
     {
         $articleCreationDTO = $this->serializer->deserialize($request->request->get('jsonData'), ArticleCreationDTO::class, 'json');
-        $articleCreationDTO->image = $request->files->get('avatar');
+        $articleCreationDTO->image = $request->files->get('image');
 
         $response = $this->service->createArticle($articleCreationDTO, $this->getUser());
+
+        if (null === $response) {
+            return new JsonResponse(status: 422);
+        }
 
         return new JsonResponse($this->serializer->serialize($response, 'json'), json: true);
     }

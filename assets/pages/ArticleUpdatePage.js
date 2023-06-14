@@ -8,6 +8,7 @@ import Footer from "../components/Footer"
 function ArticleUpdatePage() {
     let {id} = useParams()
     const navigate = useNavigate()
+    const [user, setUser] = useState()
     const [article, setArticle] = useState({})
     const [categories, setCategories] = useState([])
     const [img, setImg] = useState()
@@ -16,6 +17,10 @@ function ArticleUpdatePage() {
     const [categoryId, setCategoryId] = useState(0)
 
     useEffect(() => {
+        fetch('/api/user')
+            .then(response => response.json())
+            .then(data => setUser(data))
+
         fetch(`/api/article?id=${id}`)
             .then(response => response.json())
             .then(data => {
@@ -29,6 +34,10 @@ function ArticleUpdatePage() {
             .then(response => response.json())
             .then(data => setCategories(data))
     }, [])
+
+    if (article && user !== article.user) {
+        return navigate(`/article/${article.id}`)
+    }
 
     async function sendArticleUpdateData(e) {
         e.preventDefault()
@@ -57,14 +66,14 @@ function ArticleUpdatePage() {
         <>
             <Header />
             <div className='main'>
-                <h1 className='main-title'>Редактирование статьи</h1>
+                <h1 className='main-title'>Edit article</h1>
                 <form className='form' onSubmit={sendArticleUpdateData}>
                     <div className='article-uploaded-img-holder'>
                         <img className='article-uploaded-img' src={img ? URL.createObjectURL(img) : `http://localhost:9000/articles/${article.image_key}`}/>
                     </div>
                     <div className='load-img-input-block'>
                         <label className='article-img-upload-label' htmlFor="image">
-                            <span className='article-img-upload-label-text'>Загрузить изображение</span>
+                            <span className='article-img-upload-label-text'>Upload image</span>
                             <span className='article-img-upload-label-plus'>+</span>
                         </label>
                         <input className='article-img-upload-input' type="file" id='image' name='image' accept="image/png, image/jpeg" onChange={
@@ -95,7 +104,7 @@ function ArticleUpdatePage() {
                             })}
                         </select>
                     </div>
-                    <Button text='Редактировать' />
+                    <Button text='Edit' />
                 </form>
             </div>
             <Footer />

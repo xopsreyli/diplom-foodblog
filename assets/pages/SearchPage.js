@@ -26,7 +26,7 @@ function SearchPage() {
             <div className='main'>
                 <div className='search-input-block'>
                     <form className='search-form' method='get'>
-                        <input className='search' type="text" placeholder='Поиск' onChange={(e) => {
+                        <input className='search' type="text" placeholder='Search' onChange={(e) => {
                             setContains(e.target.value)
                         }}/>
                         <span className='search-btn'>
@@ -39,7 +39,7 @@ function SearchPage() {
                     </form>
                 </div>
                 <div className='search-nav'>
-                    <Link className='search-nav-link' to='/search' onClick={() => setCategoryId(null)}>Все</Link>
+                    <Link className='search-nav-link' to='/search' onClick={() => setCategoryId(null)}>All</Link>
                     {categories?.map(category => {
                         return (
                             <Link className='search-nav-link' to='' onClick={() => {

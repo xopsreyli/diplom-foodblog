@@ -18,19 +18,27 @@ use App\Enum\Minio\ImageBucketsEnum;
 use App\Manager\Article\ArticleManager;
 use App\Manager\Category\CategoryManager;
 use App\Service\Minio\MinioService;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ArticleService
 {
     public function __construct(
         private ArticleManager $manager,
         private CategoryManager $categoryManager,
-        private MinioService $minioService
+        private MinioService $minioService,
+        private ValidatorInterface $validator
     )
     {
     }
 
-    public function createArticle(ArticleCreationDTO $articleCreationDTO, User $user): ArticleCreationResponseDTO
+    public function createArticle(ArticleCreationDTO $articleCreationDTO, User $user): ?ArticleCreationResponseDTO
     {
+        $errors = $this->validator->validate($articleCreationDTO);
+
+        if (count($errors) > 0) {
+            return null;
+        }
+
         $article = new Article();
         $article->setUser($user);
         $article->setTitle($articleCreationDTO->title);

@@ -11,6 +11,7 @@ function LoginPage() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [passwordType, setPasswordType] = useState('password')
+    const [error, setError] = useState('')
 
     async function sendLoginData(e) {
         e.preventDefault()
@@ -27,6 +28,8 @@ function LoginPage() {
 
         if (200 === response.status) {
             navigate('/')
+        } else {
+            setError('Invalid login credentials. Please check your email and password and try again.')
         }
     }
 
@@ -64,7 +67,7 @@ function LoginPage() {
         <>
             <Header />
             <div className='main'>
-                <h1 className='main-title'>Авторизация</h1>
+                <h1 className='main-title'>Log in</h1>
                 <form className='form' onSubmit={sendLoginData}>
                     <div className='input-block'>
                         <input className='input' type='text' placeholder='Email' value={email} required='true' onChange={
@@ -79,11 +82,12 @@ function LoginPage() {
                             {passwordSVG}
                         </span>
                     </div>
-                    <Button text='Войти'/>
+                    <p className='error-message'>{error}</p>
+                    <Button text='Log in'/>
                 </form>
                 <p className='no-account'>
-                    <span>Нет учетной записи?</span>
-                    <Link className='reg-link' to='/registration'>Зарегистрируйтесь</Link>
+                    <span>No account?</span>
+                    <Link className='reg-link' to='/registration'>Register</Link>
                 </p>
             </div>
             <Footer />
