@@ -139,6 +139,16 @@
     margin: 40px auto 0;
 }
 
+.login-link-block {
+    padding-top: 40px;
+    text-align: center;
+}
+
+.link-to-login {
+    color: #9381FF;
+    transition: .2s linear;
+}
+
 .comments-block {
     width: 800px;
     margin: 40px auto 0;
@@ -230,6 +240,10 @@
         color: #fefcfd;
         background-color: #fc2a2a;
         box-shadow: 0 0 2px #fc2a2a;
+    }
+
+    .link-to-login:hover {
+        color: #000505;
     }
 
 }

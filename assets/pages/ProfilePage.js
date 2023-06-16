@@ -86,6 +86,9 @@ function ProfilePage() {
     }
 
     async function sendFollowRequest() {
+        if (Object.keys(user).length === 0) {
+            return
+        }
         const response = await fetch(`/api/user/follow`, {
             method: 'POST',
             body: JSON.stringify({

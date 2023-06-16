@@ -13,7 +13,6 @@ function ArticlePage() {
     const navigate = useNavigate()
     const [user, setUser] = useState({})
     const [article, setArticle] = useState({})
-    const [commentLength, setCommentLength] = useState(0)
     const [commentValue, setCommentValue] = useState('')
     const [isLiked, setIsLiked] = useState(false)
     const [confirmDelete, setConfirmDelete] = useState('none')
@@ -71,6 +70,10 @@ function ArticlePage() {
     }
 
     async function like() {
+        if (Object.keys(user).length === 0) {
+            return
+        }
+
         const response = await fetch('/api/user/article/like', {
             method: 'POST',
             body: JSON.stringify({
@@ -123,8 +126,6 @@ function ArticlePage() {
         }
     }
 
-    console.log(article)
-
     function resolveAvatar() {
         if (article.user.image_key) {
             return (
@@ -135,6 +136,30 @@ function ArticlePage() {
                 <svg width="24" height="24" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M50 0C36.25 0 25 14 25 31.25C25 48.5 36.25 62.5 50 62.5C63.75 62.5 75 48.5 75 31.25C75 14 63.75 0 50 0ZM23.875 62.5C10.625 63.125 0 74 0 87.5V100H100V87.5C100 74 89.5 63.125 76.125 62.5C69.375 70.125 60.125 75 50 75C39.875 75 30.625 70.125 23.875 62.5Z" fill="#000505"/>
                 </svg>
+            )
+        }
+    }
+
+    function resolveCommentBlock() {
+        if (Object.keys(user).length !== 0) {
+            return (
+                <form className='add-comment-form' onSubmit={addComment}>
+                    <div className='input-block'>
+                        <input className='input' type="text" value={commentValue} required='true' maxLength='300' onChange={
+                            e => {
+                                setCommentValue(e.target.value)
+                            }
+                        }/>
+                        <span className='input-span'>{commentValue.length} / 300</span>
+                    </div>
+                    <Button text='Leave comment' />
+                </form>
+            )
+        } else {
+            return (
+                <div className='login-link-block'>
+                    <Link className='link-to-login' to='/login'>Log in to leave comments</Link>
+                </div>
             )
         }
     }
@@ -172,18 +197,7 @@ function ArticlePage() {
                         <p className='article-content'>{article.content}</p>
                     </div>
                 </div>
-                <form className='add-comment-form' onSubmit={addComment}>
-                    <div className='input-block'>
-                        <input className='input' type="text" value={commentValue} required='true' maxLength='300' onChange={
-                            e => {
-                                setCommentLength(e.target.value.length)
-                                setCommentValue(e.target.value)
-                            }
-                        }/>
-                        <span className='input-span'>{commentLength} / 300</span>
-                    </div>
-                    <Button text='Leave comment' />
-                </form>
+                {resolveCommentBlock()}
                 <div className='comments-block'>
                     {article.comments?.map(comment => {
                         return (
