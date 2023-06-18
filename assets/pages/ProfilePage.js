@@ -6,6 +6,7 @@ import ProfileStats from "../components/ProfileStats"
 import ProfileArticleCard from "../components/ProfileArticleCard"
 import Button from "../components/Button"
 import Footer from "../components/Footer"
+import Loader from "../components/Loader";
 
 function ProfilePage() {
     let {id} = useParams()
@@ -15,13 +16,13 @@ function ProfilePage() {
     const [isFollowed, setIsFollowed] = useState(false)
 
     useEffect(() => {
-        getPageData()
-
         fetch('/api/user')
             .then(response => response.json())
             .then(data => setUser(data))
 
         isFollowing()
+
+        getPageData()
     }, [id])
 
     async function isFollowing() {
@@ -130,7 +131,9 @@ function ProfilePage() {
     }
 
     if (Object.keys(profileUserData).length === 0) {
-        return
+        return (
+            <Loader />
+        )
     }
 
     return (

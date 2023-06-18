@@ -7,6 +7,7 @@ import Button from "../components/Button"
 import '../styles/pages/forms.css'
 import Comment from "../components/Comment"
 import Footer from "../components/Footer"
+import Loader from "../components/Loader";
 
 function ArticlePage() {
     let {id} = useParams()
@@ -18,8 +19,6 @@ function ArticlePage() {
     const [confirmDelete, setConfirmDelete] = useState('none')
 
     useEffect(() => {
-        getArticle()
-
         fetch(`/api/user/article/liked?id=${id}`)
             .then(response => {
                 return response.json()
@@ -35,6 +34,8 @@ function ArticlePage() {
             .then((data) => {
                 setUser(data)
             })
+
+        getArticle()
     }, [])
 
     async function getArticle() {
@@ -165,7 +166,9 @@ function ArticlePage() {
     }
 
     if (Object.keys(article).length === 0) {
-        return
+        return (
+            <Loader />
+        )
     }
 
     return (

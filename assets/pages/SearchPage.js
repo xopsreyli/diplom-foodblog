@@ -4,6 +4,7 @@ import '../styles/pages/search.css'
 import {Link, useSearchParams} from "react-router-dom"
 import ArticleCard from "../components/ArticleCard"
 import Footer from "../components/Footer"
+import Loader from "../components/Loader";
 
 function SearchPage() {
     const [categories, setCategories] = useState([])
@@ -20,6 +21,12 @@ function SearchPage() {
             .then(response => response.json())
             .then(data => setArticles(data.articles))
     }, [])
+
+    if (articles.length === 0) {
+        return (
+            <Loader />
+        )
+    }
 
     return (<>
             <Header/>

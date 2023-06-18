@@ -4,10 +4,11 @@ import foodBlogImage from '../../public/img/foodblog.png'
 import '../styles/pages/homepage.css'
 import Slider from "../components/Slider"
 import Footer from "../components/Footer"
+import Loader from "../components/Loader";
 
 function HomePage() {
-    const [latest, setLatest] = useState()
-    const [popular, setPopular] = useState()
+    const [latest, setLatest] = useState([])
+    const [popular, setPopular] = useState([])
 
     useEffect(() => {
         fetch('/api/article/latest')
@@ -18,6 +19,12 @@ function HomePage() {
             .then(response => response.json())
             .then(data => setPopular(data.articles))
     }, [])
+
+    if (popular.length === 0) {
+        return (
+            <Loader />
+        )
+    }
 
     return (
         <>
