@@ -4,6 +4,19 @@ import {Link} from "react-router-dom";
 
 function Header() {
     const [user, setUser] = useState({})
+    const [navPosition, setNavPosition] = useState(-100)
+    const [transformMain, setTransformMain] = useState({
+        opacity: 1,
+        translateX: 0
+    })
+    const [transformBefore, setTransformBefore] = useState({
+        translateY: -13.5,
+        rotate: 0
+    })
+    const [transformAfter, setTransformAfter] = useState({
+        translateY: 13.5,
+        rotate: 0
+    })
 
     useEffect(() => {
         fetch('/api/user')
@@ -50,6 +63,38 @@ function Header() {
        }
    }
 
+   function burger() {
+        if (0 === navPosition) {
+            setNavPosition(-100)
+            setTransformMain({
+                opacity: 1,
+                translateX: 0
+            })
+            setTransformBefore({
+                translateY: -13.5,
+                rotate: 0
+            })
+            setTransformAfter({
+                translateY: 13.5,
+                rotate: 0
+            })
+        } else {
+            setNavPosition(0)
+            setTransformMain({
+                opacity: 0,
+                translateX: -100
+            })
+            setTransformBefore({
+                translateY: 0,
+                rotate: 225
+            })
+            setTransformAfter({
+                translateY: 0,
+                rotate: -225
+            })
+        }
+   }
+
     return (
         <header>
             <Link className='header-logo' to='/'>
@@ -63,12 +108,30 @@ function Header() {
                     </defs>
                 </svg>
             </Link>
-            <nav className='header-nav'>
+            <nav className='header-nav' style={{right: `${navPosition}%`}}>
                 <Link className='nav-link' to="/">Home</Link>
                 <Link className='nav-link' to="/search">Search</Link>
                 <Link className='nav-link' to="/article/create">Add</Link>
                 {resolveLinks()}
             </nav>
+            <div className='burger-block' onClick={burger}>
+                <span className='burger-before' style={
+                    {
+                        transform: `translateY(${transformBefore.translateY}px) rotate(${transformBefore.rotate}deg)`
+                    }
+                }></span>
+                <span className='burger' style={
+                    {
+                        opacity: transformMain.opacity,
+                        transform: `translateX(${transformMain.translateX}%)`
+                    }
+                }></span>
+                <span className='burger-after' style={
+                    {
+                        transform: `translateY(${transformAfter.translateY}px) rotate(${transformAfter.rotate}deg)`
+                    }
+                }></span>
+            </div>
         </header>
     )
 }

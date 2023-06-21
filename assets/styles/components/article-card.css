@@ -73,3 +73,40 @@
 
 }
 
+@media screen and (max-width: 1280px) {
+
+    .article-card {
+        width: 30%;
+        margin-bottom: 5%;
+    }
+
+    .article-card:not(:nth-child(4n)) {
+        margin-right: 0;
+    }
+
+    .article-card:not(:nth-child(3n)) {
+        margin-right: 5%;
+    }
+
+}
+
+@media screen and (max-width: 1024px) {
+
+    .article-card {
+        width: 45%;
+        margin-bottom: 10%;
+    }
+
+    .article-card:not(:nth-child(3n)) {
+        margin-right: 0;
+    }
+
+    .article-card:not(:nth-child(2n)) {
+        margin-right: 10%;
+    }
+
+    .article-card-title {
+        font-size: 16px;
+    }
+
+}

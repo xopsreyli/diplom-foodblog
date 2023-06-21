@@ -28,3 +28,35 @@
 .error-page-btn {
     text-decoration: none;
 }
+
+@media screen and (max-width: 1024px) {
+
+    .error-code {
+        font-size: 200px;
+    }
+
+    .error-text {
+        font-size: 32px;
+    }
+
+    .error-description {
+        font-size: 18px;
+    }
+
+}
+
+@media screen and (max-width: 768px) {
+
+    .error-code {
+        font-size: 160px;
+    }
+
+    .error-text {
+        font-size: 24px;
+    }
+
+    .error-description {
+        font-size: 16px;
+    }
+
+}

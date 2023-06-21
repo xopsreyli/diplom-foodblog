@@ -8,7 +8,7 @@ import Footer from "../components/Footer"
 function ArticleUpdatePage() {
     let {id} = useParams()
     const navigate = useNavigate()
-    const [user, setUser] = useState()
+    const [user, setUser] = useState({})
     const [article, setArticle] = useState({})
     const [categories, setCategories] = useState([])
     const [img, setImg] = useState()
@@ -35,10 +35,6 @@ function ArticleUpdatePage() {
             .then(data => setCategories(data))
     }, [])
 
-    if (article && user !== article.user) {
-        return navigate(`/article/${article.id}`)
-    }
-
     async function sendArticleUpdateData(e) {
         e.preventDefault()
 
@@ -59,6 +55,12 @@ function ArticleUpdatePage() {
 
         if (200 === response.status) {
             navigate(`/article/${id}`)
+        }
+    }
+
+    if (Object.keys(user).length !== 0 && Object.keys(article).length !== 0) {
+        if (user.id !== article.user.id) {
+            navigate(`/article/${article.id}`);
         }
     }
 

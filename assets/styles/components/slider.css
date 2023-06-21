@@ -51,3 +51,33 @@
     }
 
 }
+
+@media screen and (max-width: 1536px) {
+
+    .slider-card-box {
+        width: 30%;
+        min-width: 30%;
+        margin-right: 5%;
+    }
+
+}
+
+@media screen and (max-width: 1024px) {
+
+    .slider-card-box {
+        width: 45%;
+        min-width: 45%;
+        margin-right: 10%;
+    }
+
+}
+
+@media screen and (max-width: 768px) {
+
+    .slider-card-box {
+        width: 100%;
+        min-width: 100%;
+        margin-right: 0;
+    }
+
+}

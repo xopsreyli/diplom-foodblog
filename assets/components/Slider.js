@@ -6,21 +6,49 @@ function Slider(props) {
     const [translate, setTranslate] = useState(0)
     const [backBtnDisplay, setBackBtnDisplay] = useState('none')
     const [forwardBtnDisplay, setForwardBtnDisplay] = useState('block')
+    const [sliderMoves, setSliderMoves] = useState(0)
 
     function moveBack() {
-        setTranslate(translate + 26)
+        setSliderMoves(sliderMoves - 1)
+        if (document.body.scrollWidth <= 768) {
+            setTranslate(translate + 100)
+        } else if (document.body.scrollWidth <= 1024) {
+            setTranslate(translate + 55)
+        } else if (document.body.scrollWidth <= 1536) {
+            setTranslate(translate + 35)
+        } else {
+            setTranslate(translate + 26)
+        }
         setForwardBtnDisplay('block')
-        if (-26 === translate) {
+        if (1 === sliderMoves) {
             setBackBtnDisplay('none')
         }
     }
 
     function moveForward() {
-        setTranslate(translate - 26)
-        setBackBtnDisplay('block')
-        if (-130 === translate) {
-            setForwardBtnDisplay('none')
+        setSliderMoves(sliderMoves + 1)
+        if (document.body.scrollWidth <= 768) {
+            setTranslate(translate - 100)
+            if (8 === sliderMoves) {
+                setForwardBtnDisplay('none')
+            }
+        } else if (document.body.scrollWidth <= 1024) {
+            setTranslate(translate - 55)
+            if (7 === sliderMoves) {
+                setForwardBtnDisplay('none')
+            }
+        } else if (document.body.scrollWidth <= 1536) {
+            setTranslate(translate - 35)
+            if (6 === sliderMoves) {
+                setForwardBtnDisplay('none')
+            }
+        } else {
+            setTranslate(translate - 26)
+            if (5 === sliderMoves) {
+                setForwardBtnDisplay('none')
+            }
         }
+        setBackBtnDisplay('block')
     }
 
     return (

@@ -15,6 +15,7 @@ header {
 .header-nav {
     display: flex;
     align-items: center;
+    transition: .2s linear;
 }
 
 .nav-link {
@@ -72,6 +73,34 @@ header {
     right: 50%;
 }
 
+.burger-block {
+    position: relative;
+    display: none;
+    width: 36px;
+    height: 72px;
+}
+
+.burger-input {
+    display: none;
+}
+
+.burger,
+.burger-before,
+.burger-after {
+    position: absolute;
+    display: block;
+    width: 36px;
+    height: 3px;
+    top: 50%;
+    border-radius: 3px;
+    background-color: #fefcfd;
+    transition: .2s linear;
+}
+
+.burger {
+    transform: translateY(-50%);
+}
+
 @media screen and (min-width: 993px) {
 
     .nav-link:hover {
@@ -92,6 +121,42 @@ header {
 
     .link-to-profile:hover .link-to-profile-image-span{
         border: 2px solid #9381FF;
+    }
+
+}
+
+@media screen and (max-width: 768px) {
+
+    header {
+        padding: 0 5%;
+    }
+
+    .header-nav {
+        position: absolute;
+        display: block;
+        width: 50%;
+        height: 100vh;
+        top: 72px;
+        background-color: #000505;
+        box-shadow: -40px 0 40px #000505;
+        z-index: 10000;
+    }
+
+    .nav-link {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 10%;
+        font-size: 24px;
+        margin: 0;
+    }
+
+    .link-to-profile-text {
+        font-size: 18px;
+    }
+
+    .burger-block {
+        display: block;
     }
 
 }

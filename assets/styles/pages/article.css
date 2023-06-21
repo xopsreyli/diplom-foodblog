@@ -247,3 +247,41 @@
     }
 
 }
+
+@media screen and (max-width: 1024px) {
+
+    .comments-block {
+        width: 100%;
+    }
+
+}
+
+@media screen and (max-width: 768px) {
+
+    .article-block {
+        flex-wrap: wrap;
+    }
+
+    .article-block-left,
+    .article-block-right {
+        width: 100%;
+    }
+
+    .article-block-left {
+        margin-bottom: 20px;
+    }
+
+    .article-content {
+        padding: 0;
+        text-align: center;
+    }
+
+    .add-comment-form {
+        width: 100%;
+    }
+
+    .confirm-delete-block {
+        width: 80%;
+    }
+
+}
