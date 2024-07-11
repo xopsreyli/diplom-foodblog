@@ -111,7 +111,7 @@ function RegistrationPage() {
                         }/>
                     </div>
                     <div className='input-block'>
-                        <input className='input' type='text' placeholder='Nickname' value={nickname} required='true' onChange={
+                        <input className='input' type='text' placeholder='Nickname' value={nickname} max='30' required='true' onChange={
                             (e) => {setNickname(e.target.value)}
                         }/>
                         <span className='input-span'>{nickname.length} / 30</span>
